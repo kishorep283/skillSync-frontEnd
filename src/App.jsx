@@ -1,19 +1,24 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
 // import './App.css'
-import Header from './MainPage/Header/header'
-import Part1 from './MainPage/Body/Part1'
-import Part2 from './MainPage/Body/Part2'
-
+import { Routes } from "react-router-dom";
+import LandingPage from "./PAGES/MainPage/LandingPage";
+// import Filters_page from './Filters/Skills_filter'
+import Full_page from "./PAGES/All_Mentors_Page/Full_page";
+import { Route } from "react-router-dom";
+import Profile from "./PAGES/Profile_page/Profile";
+import Header from "./PAGES/MainPage/Header/header";
 function App() {
   return (
     <>
-      <Header/>
-      <Part1/>
-      <Part2/>
+      <LandingPage />
+      <Routes>
+        <Route path="/mentor/browse" element={<Full_page />} />
+        <Route path="/mentor/:query_id" element={<Profile />} />
+      </Routes>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

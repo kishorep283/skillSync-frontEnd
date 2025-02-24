@@ -1,7 +1,7 @@
 import React from 'react'
 import image from "./dummy-user.png"
 import { Link } from 'react-router-dom'
-import { Data } from './data/data'
+import { Data } from '../../../Data/data'
 const Part2 = () => {
   return (
     <> 
@@ -43,16 +43,16 @@ const Part2 = () => {
       </div>
       <div>
         <h2 style={{paddingLeft:"7%"}}>Explore 800+ Mentors</h2>
-        <div className='d-grid grid-5' style={{gridTemplateColumns:"repeat(4,2fr)",paddingLeft:"5%",paddingRight:"5%"}}>
+        <div className='d-grid grid-5' style={{gridTemplateColumns:"repeat(4,2fr)",marginLeft:"10%",paddingRight:"5%"}}>
           {Data.map((card,ind)=>(
-            <Link to={`/mentor/${encodeURIComponent(card.name)}/?queryId=${card.queryId}&source=search`} style={{ textDecoration: "none", color: "inherit" }}>
+            <Link to={`/mentor/:${card.id}/`} style={{ textDecoration: "none", color: "inherit" }}>
               <div className='d-flex flex-column gap-2' style={{width:"20vw",height:"70vh",marginBottom:"40px"}} >
-                <img src={card.image} alt="image"  style={{ objectFit:"fill", width: "100%", height: "40vh",borderRadius:"20px" }} />
+                <img src={card.image} alt="image"  style={{ objectFit:"fill", width: "80%", height: "40vh",borderRadius:"20px" }} />
                 <h4>{card.name}</h4>
-                <h5>{card.desc}</h5>
+                <h5 style={{fontSize:"1rem"}}>{card.description}</h5>
                 <div className='d-flex gap-2' style={{display:"flex",flexWrap:"wrap"}}>
-                  {card.skill.map((car,ind)=>(
-                    <h6 style={{backgroundColor:"#ddd",padding:"5px",borderRadius:"20px"}}>{car}</h6>
+                  {card.skills?.map((car,ind)=>(
+                    <h6 style={{backgroundColor:"#ddd",padding:"5px",borderRadius:"20px",fontSize:"0.9rem"}}>{car}</h6>
 
                   ))}
                 </div>
