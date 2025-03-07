@@ -1,6 +1,6 @@
 import React from 'react'
-import Filters_page from '../../Filters/Skills_filter'
-import Mentros_page from './mentros_page'
+import Filters_page from '../../Filters/Skills_filter.jsx'
+import Mentros_page from './components/mentros_page.jsx'
 const Full_page = () => {
   return (
     <div>

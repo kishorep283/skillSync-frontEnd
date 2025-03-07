@@ -1,5 +1,5 @@
 import React from 'react'
-import Leftpart from './leftpart'
+import Leftpart from './Components/leftpart'
 import Header from '../MainPage/Header/header'
 
 const Profile = () => {

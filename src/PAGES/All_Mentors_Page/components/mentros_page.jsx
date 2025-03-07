@@ -1,38 +1,53 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { Data } from '../../Data/data';
+import { Data } from '../../../Data/data';
 import { Link } from 'react-router-dom';
-import { First } from '../../Data/data';
-import { lazy } from 'react';
-import { Suspense } from 'react';
-const LazyComponent =lazy(()=>import("./Second.jsx"))
+import axios from 'axios';
 const Mentros_page = () => {
     let [data] = useSearchParams();
     let search=data.get("search")||"";
-    console.log(search);
+    // console.log(search);
     let tags=data.getAll("tags");
     let jobs =data.getAll("job_titles");
     let company = data.getAll("company");
-    console.log(company);
-    const memoizedData=useMemo(()=>Data,[Data]);
+    let email = JSON.parse(sessionStorage.getItem("email"));
+    console.log(email);
+    // console.log(company);
+    // const memoizedData=useMemo(()=>Data,[Data]);
+    const[memoizedData,setMemoizedData]=useState([]);
+    useEffect(()=>{
+      let fetchData = async()=>{
+        let {data} = await axios.get("http://localhost:3002/Auth/AllData");
+        // console.log(data.message);
+        let{message}=data;
+        if(email){
+          let finaldata = message.filter((each)=>each.email!==email);
+          setMemoizedData(finaldata);
+        }
+        console.log("i'm Api data");
+        setMemoizedData(message);
+      }
+      fetchData();
+    },[]);
     const[AllData,setAllData]=useState([]);
+    console.log(memoizedData);
     useEffect(() => {
-      setAllData((prevData) => {
-          let filteredData = [...prevData];
+      console.log("i'm useefrec for fiters");
+          if(memoizedData.length ===0) return ;
+          let filteredData = [...memoizedData];
    
           // **Filter by Search Query**
           if (search.trim() !== "") {
+            console.log(filteredData);
               filteredData = filteredData.filter(
                   (item) =>
-                      item.name.toUpperCase().includes(search.toUpperCase()) ||
+                      item.firstname.toUpperCase().includes(search.toUpperCase()) ||
+                      item.lastname.toUpperCase().includes(search.toUpperCase()) ||
                       item.company.toUpperCase().includes(search.toUpperCase()) ||
                       item.job_title.toUpperCase().includes(search.toUpperCase()) ||
                       item.skills.some((skill) => skill.toUpperCase().includes(search.toUpperCase()))
               );
-          } else {
-              filteredData = [...memoizedData]; // Reset when search is empty
-          }
-   
+          } 
           // **Filter by Tags**
           if (tags.length > 0) {
               filteredData = filteredData.filter((item) =>
@@ -53,9 +68,11 @@ const Mentros_page = () => {
                   company.some((com) => item.company.toUpperCase().includes(com.toUpperCase()))
               );
           }
-   
-          return JSON.stringify(prevData) !== JSON.stringify(filteredData) ? filteredData : prevData;
-      });
+          setAllData((prevData) => {
+            return JSON.stringify(prevData) !== JSON.stringify(filteredData) ? filteredData : prevData;
+          });
+          // return filteredData;
+          // return JSON.stringify(prevData) !== JSON.stringify(filteredData) ? filteredData : prevData;
    }, [search, tags, jobs, company, memoizedData]);
    
       
@@ -69,20 +86,22 @@ const Mentros_page = () => {
                     </div>
                     <div>
                       <div>
-                        <h4>{da.name}</h4>
+                        <h4>{da.firstname}&nbsp;&nbsp;&nbsp;{da.lastname}</h4>
                         <p>{da.job_title} at <b>{da.company}</b></p>
                       </div>
                       <div>
                         <p>{da.description}</p>
                       </div>
                       <div className='d-flex gap-3'>
-                        {da.skills.map((skill)=>(
+                        {(da.skills.length>1) ?(da.skills).map((skill)=>(
                           <span style={{padding:"5px 10px", backgroundColor:"#dddd",borderRadius:"20px"}}>{skill}</span>
+                        )):JSON.parse(da.skills[0]).map((skill,ind)=>(
+                          <span style={{padding:"5px 10px", backgroundColor:"#dddd",borderRadius:"20px"}}>{skill.length>1 ? skill :""}</span>
                         ))} 
                       </div>
                       <div className='d-flex gap-5 m-4 p-2'>
-                        <span>Starting from <h3 className='d-inline'>${da.price}</h3>/month</span>
-                        <Link to={`/mentor/:${da.id}`}><button className='btn btn-primary'>View Profile</button></Link>
+                        <span>Starting from <h3 className='d-inline'>${parseInt(da.price)}</h3>/month</span>
+                        <Link to={`/mentor/${da._id}`}><button className='btn btn-primary'>View Profile</button></Link>
                       </div>
                       
                     </div>

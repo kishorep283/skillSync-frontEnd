@@ -1,5 +1,5 @@
 import React from 'react'
-import { Second } from '../../Data/data'
+import { Second } from '../../../Data/data'
 import { Link } from 'react-router-dom'
 const SecondData = () => {
   return (

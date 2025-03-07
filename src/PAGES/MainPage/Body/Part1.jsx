@@ -1,12 +1,20 @@
-import React, { useState ,useEffect} from 'react'
+import React, { useState ,useEffect, useCallback} from 'react'
 import ContinueEffet from './components/Effect.jsx'
 import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import InfiniteScrollCards from './components/Scroll.jsx'
 const Part1 = () => {
   const[value,setValue]=useState("");
-  const handlevalue =(e)=>{
+  let navigate = useNavigate();
+  const handleChange =(e)=>{
     setValue(e.target.value);
   }
+  // const handleClick =useCallback(()=>{
+  //   let params = new URLSearchParams();
+  //   if(value.trim()) params.set("search",value);
+  //   let query = params.toString();
+  //   navigate(`/mentor/browse?${query}`)
+  // },[value,navigate])
   return (
     <>
       <div className='d-grid' style={{gridTemplateColumns:"2fr 1fr"}}>
@@ -18,10 +26,10 @@ const Part1 = () => {
                 <h1 style={{color:"#071952"}}>MentorShip</h1>
             </div>
             <div className="input-group w-75">
-              <input type="text" className="p-2 w-50" onChange={()=>handlevalue} placeholder="Search by company, skills or role" style={{borderColor:""}} />
-              <Link to={`/mentor/brouse/?search=${value}`}><button className="p-2" style={{ backgroundColor: "#1976FF", color: "white" }}>
+              <input type="text" className="p-2 w-50" value={value} onChange={handleChange} placeholder="Search by company, skills or role" style={{borderColor:""}} />
+              <button className="p-2" style={{ backgroundColor: "#1976FF", color: "white" }} >
                 Find mentors
-              </button></Link>
+              </button>
            </div>
            <div>
               <div className='d-flex gap-2'>

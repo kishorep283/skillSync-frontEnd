@@ -6,6 +6,7 @@ import { Roles1 } from '../Data/Job_titles';
 import { Company1 } from '../Data/Company';
 const Filters_page = () => {
     const[value,setValue]=useState("");
+    const[debouncevalue,setDebouncevalue]=useState("");
     const[skilllist,setSkilllist]=useState([]);
     const[jobs,setjobList]=useState([]);
     const[company,setCompany]=useState([]);
@@ -14,13 +15,13 @@ const Filters_page = () => {
     const handleSearch =(e)=>{
         setValue(e.target.value);
     }
-    //function for adding data using form
-    // const handleSubmit =(e)=>{
-    //     e.preventDefault();
-    //     if(value.trim()){
-    //         navigate(`?search=${value}`)
-    //     }
-    // }
+    // useEffect(() => {
+    //     const timer = setTimeout(() => {
+    //         setDebouncevalue(value);
+    //     }, 500); // Wait 500ms before updating
+
+    //     return () => clearTimeout(timer); // Cleanup previous timer
+    // }, [value]);
     const handleSkillChange=(e)=>{
         const skill = e.target.value;
         setSkilllist((prevSkills) =>
@@ -55,7 +56,7 @@ const Filters_page = () => {
 
     // Only navigate if the URL has changed to avoid duplicate entries
         if (window.location.search !== `?${queryString}`) {
-            navigate(`/mentor/browse/?${queryString}`);
+            navigate(`/mentor/browse?${queryString}`);
         }
     },[value,skilllist,jobs,company,navigate])
 
