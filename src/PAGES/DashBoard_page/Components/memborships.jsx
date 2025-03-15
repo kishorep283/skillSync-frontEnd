@@ -2,28 +2,56 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Api } from '../../../Api';
-import "./memborships.css"
-const Friends = () => {
+const Memborships = () => {
   const[friends,setFriends]=useState([]);
+  const[mailmessage,setMailMessage]=useState({message:"",roomid:""});
   const[present,setPresent]=useState(false);
-    const[mailmessage,setMailMessage]=useState({message:"",roomid:""});
   let token =sessionStorage.getItem("token");
+  console.log("token",token);
   useEffect(()=>{
+    console.log("i'm invoked useffrect");
     let fetchData = async()=>{
-      let {data}= await axios.get(`${Api}/connection/friends/email`,{
+        console.log("i'm invoked");
+      let {data}= await axios.get(`${Api}/connection/memborships/email`,{
         headers:{
           Authorization:`Bearer ${token}`,
         },
         withCredentials:true
       })
+      console.log(data);
       setFriends(data.message);
     }
     fetchData();
   },[token])
+   // handlemail values
+  const handleMailValues=(e)=>{
+     setMailMessage((prev)=>({
+      ...prev,
+      [e.target.name]: e.target.value,
+     }))
+  }
+
+  //form submit
+  const handleFormSubmit =(e)=>{
+    e.preventDefault();
+    setPresent(false);
+  }
+  //handling mail details
   const handleMail = async(e)=>{
-    setPresent(true);
-    let email =e.target.name;
-    let bodydata = `the meeting shedules at ${mailmessage.message} and the roomId:${mailmessage.roomid}`;
+    let token =e.target.dataset.token;
+    let email = e.target.dataset.email;
+    if(!token){
+      let {data}=await axios.delete(`${Api}/connection/delete/${email}`,{
+        headers:{
+          Authorization:`Bearer ${token}`,
+        },
+        withCredentials:true
+      });
+      toast.error("The user is no longer can Access");
+      windows.location.reload();
+    }else{
+      setPresent(true);
+      let bodydata = `the meeting shedules at ${mailmessage.message} and the roomId:${mailmessage.roomid}`;
       let {data} = await axios.post(`${Api}/connection/mail/${email}`,
         {
           body:{
@@ -42,13 +70,14 @@ const Friends = () => {
       }else{
         toast.error("Failed to send");
       }
-
+    }
   }
+
   console.log(friends);
-  sessionStorage.setItem("friends",JSON.stringify(friends))
+  sessionStorage.setItem("memborships",JSON.stringify(friends));
   return (
     <>
-       <h4>Friends List</h4>
+       <h4>MemberShips List</h4>
        <Link to="/DashBoard/connections/requests"><button style={{padding:"5px 10px",border:"2px solid grey",borderRadius:"20px"}}>Friend Requests</button></Link>&nbsp;&nbsp;
        <Link to="/DashBoard/connections/membor_requests"><button style={{padding:"5px 10px",border:"2px solid grey",borderRadius:"20px"}}>Membership_Requests</button></Link>&nbsp;&nbsp;
        <Link to="/DashBoard/connections/memborships"><button style={{padding:"5px 10px",border:"2px solid grey",borderRadius:"20px"}}>Memberships</button></Link>&nbsp;&nbsp;
@@ -73,8 +102,8 @@ const Friends = () => {
        />
        <button type="submit" >Send</button>
      </form>}
-
-       {typeof friends[0]==="string" ? <h3>{friends[0]}</h3>:
+       
+       {typeof friends[0]==="string" ? <div style={{marginLeft:"30%"}}><h3 style={{marginLeft:"30%"}}>{friends[0]}</h3></div>:
        <div style={{display:"flex",flexDirection:"column",gap:"10px"}}>
         {friends.map((friend,ind)=>(
           <div key={ind} style={{display:"flex",justifyContent:"space-between",border:"2px solid #ddd",borderRadius:"20px",padding:"10px 20px",margin:"0px 7%"}}>
@@ -101,7 +130,7 @@ const Friends = () => {
                     
                   ))}</h4>
                 </div>
-                <button style={{padding:"5px 20px",borderRadius:"20px"}} onClick={handleMail} name={friend.email}>Send Mail</button>
+                <button style={{padding:"5px 20px",borderRadius:"20px"}} onClick={handleMail} data-email={friend.token} data-token={friend.token}>Send Mail</button>
                 <Link to="/DashBoard/connections/friends/room"><button style={{padding:"5px 20px",borderRadius:"20px"}}>Room</button></Link>
              </div>
           </div> 
@@ -112,4 +141,4 @@ const Friends = () => {
   )
 }
 
-export default Friends
+export default Memborships;

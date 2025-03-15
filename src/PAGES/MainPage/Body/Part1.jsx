@@ -17,7 +17,7 @@ const Part1 = () => {
   // },[value,navigate])
   return (
     <>
-      <div className='d-grid' style={{gridTemplateColumns:"2fr 1fr"}}>
+      <div className='d-grid' style={{gridTemplateColumns:"2fr 1fr",backgroundColor:"#FAFAFA"}}>
         <div className='d-flex flex-column gap-4 flex-shrink-1' style={{paddingLeft:"10%", paddingTop:"7%"}}>
             <p style={{fontSize:"1.2rem"}}>Learn a new Skill,Land your Dream Job</p>
             <div className='d-flex gap-2'>
@@ -33,14 +33,14 @@ const Part1 = () => {
            </div>
            <div>
               <div className='d-flex gap-2'>
-                <p className='p-1' style={{backgroundColor:"#e2dede",borderRadius:"15px"}}>product managers</p>
-                <p className='p-1'style={{backgroundColor:"#e2dede",borderRadius:"15px"}}>Career Coaches</p>
-                <p className='p-1' style={{backgroundColor:"#e2dede",borderRadius:"15px"}}>Software Engineering</p>
+                <p className='p-1' style={{backgroundColor:"#E0E0E0",borderRadius:"15px"}}>product managers</p>
+                <p className='p-1'style={{backgroundColor:"#E0E0E0",borderRadius:"15px"}}>Career Coaches</p>
+                <p className='p-1' style={{backgroundColor:"#E0E0E0",borderRadius:"15px"}}>Software Engineering</p>
               </div>
               <div className='d-flex gap-2'>
-                <p className='p-1' style={{backgroundColor:"#e2dede",borderRadius:"15px"}}>Leadership mentors</p>
-                <p className='p-1' style={{backgroundColor:"#e2dede",borderRadius:"15px"}}>Ux Designers</p>
-                <p className='p-1' style={{backgroundColor:"#e2dede",borderRadius:"15px"}}>Data Scientist</p>
+                <p className='p-1' style={{backgroundColor:"#E0E0E0",borderRadius:"15px"}}>Leadership mentors</p>
+                <p className='p-1' style={{backgroundColor:"#E0E0E0",borderRadius:"15px"}}>Ux Designers</p>
+                <p className='p-1' style={{backgroundColor:"#E0E0E0",borderRadius:"15px"}}>Data Scientist</p>
               </div>
            </div>
            <div className='d-flex gap-5'>

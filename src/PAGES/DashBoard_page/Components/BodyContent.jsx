@@ -1,28 +1,40 @@
-import React from 'react'
+import React from "react";
+// import "../../styles/Dashboard.css";
+ // Import CSS
+ import "../../../STYLES/DashBoardContext.scss"
 
 const BodyContent = () => {
   return (
-    <div>
-        <h3 style={{marginLeft:"7%",marginTop:"3%",marginBottom:"2%"}}>Featured Sessions</h3>
-        <div style={{marginLeft:"7%",marginRight:"7%",display:"grid",gridTemplateColumns:"repeat(3,1fr)" ,gap:"50px"}}>
-            <div style={{border:"2px solid #ddd",borderRadius:"20px",padding:"20px"}}>
-                <h3>Intro Call</h3>
-                <p>If you are looking for a mentor ,here is the great Oppurtunity</p>
-                <h5>Approx 30 mins</h5>
-            </div>
-            <div style={{border:"2px solid #ddd",borderRadius:"20px",padding:"20px"}}>
-                <h3>Work Review</h3>
-                <p>IN these session, A mentor will sit in front of you and examine the work what you have done</p>
-                <h5>Approx 45 mins</h5>
-            </div>
-            <div style={{border:"2px solid #ddd",borderRadius:"20px",padding:"20px"}}>
-                <h3>Interview Preparation</h3>
-                <p>Some Big Interviews are coming Up!they teach you well prepared for any interview and may be they interview hiring experiance ,They share their interview experiance</p>
-                <h5>Approx 50 mins</h5>
-            </div>
+    <div className="body-content-container">
+      <h3>Featured Sessions</h3>
+      <div className="featured-grid">
+        <div className="featured-card">
+          <h3>Intro Call</h3>
+          <p>
+            If you are looking for a mentor, here is a great opportunity to
+            connect.
+          </p>
+          <h5>Approx 30 mins</h5>
         </div>
+        <div className="featured-card">
+          <h3>Work Review</h3>
+          <p>
+            In this session, a mentor will examine the work you have done and
+            provide feedback.
+          </p>
+          <h5>Approx 45 mins</h5>
+        </div>
+        <div className="featured-card">
+          <h3>Interview Preparation</h3>
+          <p>
+            Get prepared for your upcoming interviews with expert guidance from
+            experienced mentors.
+          </p>
+          <h5>Approx 50 mins</h5>
+        </div>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default BodyContent
+export default BodyContent;

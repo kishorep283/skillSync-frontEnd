@@ -1,0 +1,115 @@
+// Global styles for Requests page
+.requests-container {
+    margin: 3% 7%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    padding: 10px;
+  
+    .request-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 2px solid #ccc;
+      border-radius: 15px;
+      padding: 15px;
+      margin-bottom: 15px;
+      background: #f9f9f9;
+      transition: transform 0.2s ease-in-out;
+  
+    //   &:hover {
+    //     transform: scale(1.02);
+    //   }
+  
+      .request-info {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+  
+        img {
+          border-radius: 10px;
+          width: 100px;
+          height: 100px;
+          object-fit: cover;
+        }
+  
+        .details {
+          h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: black;
+          }
+          h4 {
+            color: black;
+            font-size: 1.2rem;
+            margin: 5px 0;
+          }
+        }
+        .skills{
+            .badge{
+                font-size: 1rem;
+                color: black;
+                background-color: #ccc;
+                border-radius: 20px;
+                margin-left: "5%";
+            }
+        }
+      }
+  
+      .actions {
+        display: flex;
+        gap: 10px;
+  
+        button {
+          padding: 8px 15px;
+          border: none;
+          border-radius: 20px;
+          cursor: pointer;
+          font-weight: bold;
+          transition: 0.3s ease;
+        }
+  
+        .accept {
+          background: #4caf50;
+          color: white;
+  
+          &:hover {
+            background: #388e3c;
+          }
+        }
+  
+        .reject {
+          background: #e74c3c;
+          color: white;
+  
+          &:hover {
+            background: #c0392b;
+          }
+        }
+      }
+    }
+  }
+  
+  // Style for the request navigation buttons
+  .request-nav {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 3%;
+  
+    button {
+      padding: 8px 15px;
+      border: 2px solid grey;
+      border-radius: 20px;
+      background: white;
+      cursor: pointer;
+      transition: 0.3s ease;
+  
+      &:hover {
+        background: #3385ff;
+        color: white;
+        border-color: #3385ff;
+      }
+    }
+  }
+  

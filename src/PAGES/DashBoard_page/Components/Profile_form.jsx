@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer,toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-
+import { Api } from '../../../Api';
 const Profile_Form = () => {
     let token = sessionStorage.getItem("token");
     let navigate =useNavigate();
@@ -34,7 +34,7 @@ const Profile_Form = () => {
                 }
             });
 
-            const response = await axios.post("http://localhost:3002/Auth/create-profile", formData, {
+            const response = await axios.post(`${Api}/Auth/create-profile`, formData, {
                 headers: { "Content-Type": "multipart/form-data" ,Authorization: `Bearer ${token}`},
             });
 
@@ -50,7 +50,8 @@ const Profile_Form = () => {
     console.log(details.image);
   return (
     <div>
-        <h3 style={{marginLeft:"7%",marginTop:"2%"}}>Profile</h3>
+        <h2>Create Profile</h2>
+        {/* <h3 style={{marginLeft:"7%",marginTop:"0%"}}>Profile</h3> */}
         <div style={{marginLeft:"7%",marginRight:"7%",border:"2px solid #ddd",borderRadius:"20px"}}>
             <form enctype="multipart/form-data" class="container mt-4" onSubmit={handleSubmit}>
                 <div class="mb-3">
@@ -58,26 +59,12 @@ const Profile_Form = () => {
                     <img src="" alt="" class="d-block mb-2" />
                     <input type="file" class="form-control" name="image" id="image" onChange={handleChange}required/>
                 </div>
-
-                {/* <div class="mb-3 row">
-                    <div class="col">
-                        <label for="firstname" class="form-label">First Name:</label>
-                        <input type="text" class="form-control" name="firstname" id="firstname" placeholder="Enter Firstname" value={details.firstname} onChange={handleChange}/>
-                    </div>
-                    <div class="col">
-                        <label for="lastname" class="form-label">Last Name:</label>
-                        <input type="text" class="form-control" name="lastname" id="lastname" placeholder="Enter lastname" value={details.lastname} onChange={handleChange}/>
-                    </div>
-                </div> */}
                 <div class="mb-3 row">
                     <div class="col">
                         <label for="description" class="form-label">Description:</label>
                         <input type="text" class="form-control" name="description" id="description" placeholder="Enter Description" value={details.description} onChange={handleChange}/>
                     </div>
-                    <div class="col">
-                        <label for="country" class="form-label">Country:</label>
-                        <input type="text" class="form-control" name="country" id="country" placeholder="Enter country" value={details.country} onChange={handleChange} required/>
-                    </div>
+                    
                 </div>
                 <div class="mb-3 row">
                     <div class="col">
@@ -88,12 +75,18 @@ const Profile_Form = () => {
                         <label for="job_title" class="form-label">Profession:</label>
                         <input type="text" class="form-control" name="job_title" id="job_title" placeholder="Enter profession" value={details.job_title} onChange={handleChange} required/>
                     </div>
+                    
+                </div>
+                <div class="mb-3 row">
+                    <div class="col">
+                        <label for="country" class="form-label">Country:</label>
+                        <input type="text" class="form-control" name="country" id="country" placeholder="Enter country" value={details.country} onChange={handleChange} required/>
+                    </div>
                     <div class="col">
                         <label for="price" class="form-label">Price:</label>
                         <input type="text" class="form-control" name="price" id="price" placeholder="Enter price" value={details.price} onChange={handleChange} required/>
                     </div>
                 </div>
-
                 <div class="mb-3">
                     <label for="about" class="form-label">About:</label>
                     <input type="text" class="form-control" name="About" id="about" placeholder="Enter About" value={details.About} onChange={handleChange} required/>
@@ -104,7 +97,7 @@ const Profile_Form = () => {
                     <input type="text" class="form-control" name="skills" id="skills" placeholder="Enter skills" value={details.skills} onChange={handleChange} required/>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary" style={{marginBottom:"3%",marginLeft:"50%"}}>Submit</button>
             </form>
         </div>
         <ToastContainer position="top-center" autoClose={3000} toastStyle={{ fontSize: "10px", padding: "15px", width: "200px",height:"30px" }}/>

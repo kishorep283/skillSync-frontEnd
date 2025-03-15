@@ -1,68 +1,108 @@
-import React, { useEffect, useState } from 'react'
-import Profile_Form from './Components/Profile_form'
-import axios from 'axios';
-const Profile_page = () => {
-  let token =sessionStorage.getItem("token");
-  const[userdetails,setUserDetails]=useState({firstname:"",lastname:"",email:"",job_title:"",company:"",image:"",skills:[]});
-  // console.log(email)
-  useEffect(()=>{
-    const  submit = async()=>{
-      if (!token) return;
-      let { data } = await axios(
-        `http://localhost:3002/Auth/profile_data/email`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-          withCredentials: true,
-        }
-      );
-      console.log(data);
-      console.log(typeof data);
-      // console.log(typeof data.message === "string");
-      // debugger;
-      if (typeof data.message === "string") {
-        return;
-      } else {
-        // console.log(data.message);
-        let { message } = data;
-        // let skills = Array.isArray(message.skills) ? message.skills : JSON.parse(message.skills || "[]");
-        let skills =JSON.parse(message.skills)
-        console.log(skills);
-        console.log(message);
-        setUserDetails({
-          firstname: message.firstname || message.name.split(" ")[0],
-          lastname: message.lastname || message.name.split(" ")[1],
-          email: message.email,
-          job_title: message.profession,
-          company: message.company,
-          image: message.image,
-          skills: skills
-        });
-      }
-    }
-    submit();
-  },[token]);
-  console.log(userdetails);
-  console.log(userdetails.image);
-  // console.log(userdetails.skills.length === 0);
-  return (
-    <div>
-      {userdetails.skills.length !==0 ? 
-        <>
-         <img src={userdetails.image ? userdetails.image :"https://www.un.org/pga/wp-content/uploads/sites/53/2018/09/Dummy-image-1.jpg"} alt="image" width={200} height={200}/>
-         <p>{userdetails.firstname}</p>
-         <p>{userdetails.lastname}</p>
-         <p>{userdetails.job_title}</p>
-         <p>{userdetails.company}</p>
-         <p>{userdetails.email}</p>
-         <div className='d-flex gap-3'>
-          {userdetails.skills.map((skill,ind)=>(
-            <p>{skill}</p>         
-          ))}
-        </div>
-        </>
-        : <Profile_Form/>}
-    </div>
-  )
-}
+import React, { useEffect, useState } from "react";
+import Profile_Form from "./Components/Profile_form";
+import axios from "axios";
+import { Api } from "../../Api";
+import "../../STYLES/profile_page.scss"; // Importing styles
 
-export default Profile_page
+const Profile_page = () => {
+  let token = sessionStorage.getItem("token");
+  let friends = JSON.parse(sessionStorage.getItem("friends")) || [];
+  let memberships = JSON.parse(sessionStorage.getItem("memborships")) || [];
+  
+  const [userdetails, setUserDetails] = useState({
+    description: "",
+    firstname: "",
+    lastname: "",
+    email: "",
+    job_title: "",
+    company: "",
+    image: "",
+    file: "",
+    skills: [],
+  });
+
+  useEffect(() => {
+    const submit = async () => {
+      if (!token) return;
+      let { data } = await axios(`${Api}/Auth/profile_data/email`, {
+        headers: { Authorization: `Bearer ${token}` },
+        withCredentials: true,
+      });
+
+      if (typeof data.message === "string") return;
+
+      let { message } = data;
+      let skills =
+        typeof message.skills === "string"
+          ? JSON.parse(message.skills)
+          : message.skills;
+
+      setUserDetails({
+        firstname: message.firstname || message.name.split(" ")[0],
+        lastname: message.lastname || message.name.split(" ")[1],
+        email: message.email,
+        job_title: message.job_title,
+        company: message.company,
+        image: message.image,
+        file: message.file,
+        skills: skills,
+        description: message.description,
+      });
+    };
+
+    submit();
+  }, [token]);
+
+  return (
+    <div className="profile-container">
+      {userdetails.skills.length !== 0 ? (
+        <>
+          <div className="profile-card">
+            <img
+              src={
+                userdetails.image.startsWith("https")
+                  ? userdetails.image
+                  : userdetails.file
+              }
+              alt="Profile"
+              className="profile-image"
+            />
+            <h3>
+              {userdetails.firstname} {userdetails.lastname}
+            </h3>
+            <p className="text-muted">
+              {userdetails.job_title} at {userdetails.company}
+            </p>
+            <p>
+              <strong>Email:</strong> {userdetails.email}
+            </p>
+            <p>{userdetails.description}</p>
+            <p>
+              <strong>Friends:</strong> {friends.length}
+            </p>
+            <p>
+              <strong>Memberships:</strong> {memberships.length}
+            </p>
+            <div className="skills-container">
+              {userdetails.skills.length > 1
+                ? userdetails.skills.map((skill, ind) => (
+                    <span key={ind} className="skill-badge">
+                      {skill}
+                    </span>
+                  ))
+                : JSON.parse(userdetails.skills[0]).map((skill, ind) => (
+                    <span key={ind} className="skill-badge">
+                      {skill}
+                    </span>
+                  ))}
+            </div>
+          </div>
+        </>
+      ) : (
+        <Profile_Form />
+      )}
+    </div>
+  );
+};
+
+export default Profile_page;

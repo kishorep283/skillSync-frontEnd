@@ -4,7 +4,7 @@ import Mentros_page from './components/mentros_page.jsx'
 const Full_page = () => {
   return (
     <div>
-      <div style={{display:"flex" ,justifyContent:"space-between",gap:"30px",marginTop:"5%"}}>
+      <div style={{display:"flex" ,justifyContent:"space-between",gap:"30px",marginTop:"0%",paddingTop:"2%",backgroundColor:"#FAFAFA"}}>
         <Filters_page/>
         <Mentros_page/>
       </div>

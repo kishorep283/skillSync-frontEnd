@@ -1,0 +1,92 @@
+.login-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb); // Softer blue gradient
+  
+    .logo-section {
+      padding: 150px 200px;
+      background: rgba(207, 226, 255, 0.6);
+    // background: #0056b3; // Lighter blue with opacity
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 10px;
+      img {
+        width: 300px;
+        height: 200px;
+        object-fit: contain;
+      }
+    }
+  
+    .login-form {
+      margin-right: 10%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  
+      .card {
+        padding: 30px;
+        width: 350px;
+        border-radius: 15px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        background: #fff;
+      }
+  
+      h2 {
+        text-align: center;
+        font-size: 26px;
+        font-weight: bold;
+        color: #333;
+      }
+  
+      .form-label {
+        font-weight: 600;
+        color: #444;
+      }
+  
+      .form-control {
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        transition: 0.3s;
+        &:focus {
+          border-color: #007bff;
+          box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+        }
+      }
+  
+      .btn-primary {
+        background: linear-gradient(135deg, #007bff, #0056b3);
+        border: none;
+        padding: 12px;
+        font-size: 16px;
+        border-radius: 8px;
+        transition: 0.3s;
+        &:hover {
+          background: linear-gradient(135deg, #0056b3, #003b80);
+        }
+      }
+  
+      .text-center {
+        margin-top: 15px;
+        font-size: 14px;
+        color: #666;
+        a {
+          color: #007bff;
+          text-decoration: none;
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+  
+      .google-login {
+        display: flex;
+        justify-content: center;
+        margin-top: 15px;
+      }
+    }
+  }
+  

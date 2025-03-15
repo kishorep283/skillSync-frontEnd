@@ -3,108 +3,212 @@ import { data, Link, useParams, useSearchParams } from 'react-router-dom'
 import axios from 'axios';
 import { ToastContainer,toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import { loadStripe } from "@stripe/stripe-js";
+import "../../../STYLES/leftpart.scss"
+import { Api } from '../../../Api';
 // import { Data } from '../../../Data/data';
 const Leftpart = () => {
     let{query_id}=useParams();
-    console.log(query_id);
+    const stripePromise = loadStripe(import.meta.env.VITE_PUBLISH_KEY);
+    // console.log(query_id);
     // let query = parseInt(query_id);
     // console.log(query);
     const[list,setList]=useState(null);
+    // const[price,setPrice]=useState(0);
+    const[payment,setPayment]=useState(false);
     const[userData,setUserData]=useState([]);
     let token =sessionStorage.getItem("token");
-    console.log(token);
+    let login = sessionStorage.getItem("login");
+    // console.log(token);
     useEffect(()=>{
         let newdata =async()=>{
-          let {data} = await axios.get("http://localhost:3002/Auth/AllData");
+          let {data} = await axios.get(`${Api}/Auth/AllData`);
           // console.log(data.message);
           let{message}=data;
           setUserData(message);
         }
         newdata();
     },[])
+
     useEffect(()=>{
       let filterdata = userData.find((item)=>item._id===query_id);
-      setList(filterdata)
+      if(filterdata){
+         setList(filterdata)
+      }
       console.log(list);
     },[userData,query_id]);
-    let handleConnect =useCallback(async()=>{
-      let gmail = list.email && list.email;
-      let {data} =await axios.post(`http://localhost:3002/connection/assign/${gmail}`,{},{
-       headers: { Authorization: `Bearer ${token}` },
-         withCredentials: true,
-       })
-       console.log(data.message);
-       toast.success(data.message);
-        // fetch(`http://localhost:3002/connection/assign/${gmail}`, { method:"POST",headers:{ Authorization: `Bearer ${token}` }}).then(res=>{console.log(res.json())})
-    },[list])
+    // handle connection 
+    
+    let handleConnect =async(e)=>{
+      e.preventDefault();
+      if(!login){
+        toast.error("please login and continue")
+        return;
+      }
+      // price =parseInt(e.target.name);
+      let amount =parseInt(e.target.dataset.price);
+      let email =e.target.dataset.email;
+      console.log(payment);
+      // console.log(price);
+      if(amount>0 && !payment){
+        toast.error("you made payment to access these user");
+      }
+      if(amount===0 || payment){
+        // let gmail = list.email && list.email;
+        let status = payment?"membor":"free";
+        let {data} =await axios.post(`http://localhost:3002/connection/assign/${email}/${status}`,{},{
+         headers: { Authorization: `Bearer ${token}` },
+           withCredentials: true,
+         })
+         console.log(data.message);
+         toast.success(data.message);
+      }
+        
+    }
     console.log(list);
     if(!list){
       return <h4>Loading...</h4>
     }
+    
+    let handlePayment =async(e)=>{
+      let amt = parseInt(e.target.name);
+      // setPrice(parseInt(e.target.name));
+      if(amt===0){
+        setPayment(true);
+        toast.error("No Need To Do Payment")
+      }
+      if(amt>0){
+        const stripe = await stripePromise;
+        const response = await fetch("http://localhost:3002/connection/payment", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ amount:amt }) 
+        });
+        const session = await response.json();
 
-    // async function fun() {
-    //   const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJhakBnbWFpbC5jb20iLCJpYXQiOjE3NDEyNTI1ODd9.sxRRa6YJ6mQY0L-hAv6FHF8jhrogavNKre4XJ-J6n_c"
-    //   let gmail = list.email && list.email;
-    //     let data =await axios.post(`http://localhost:3002/connection/assign/${gmail}`,{headers:{Authorization: `Bearer ${token}`}})
-    //   console.log(data)
-    // }
-    // fun()
-    // console.log(data);
+        if(session.id){
+          setPayment(true);
+          await stripe.redirectToCheckout({ sessionId: session.id });
+          // toast.success("Payment Successfull");
+          console.log("i'm invoked in if block")
+        }else{
+          toast.error("Payment Failed");
+        }
+      }
+    }
+    console.log(payment);
+    
   return (
     <>
-      <div style={{display:"grid",gridTemplateColumns:"2fr 1fr",gap:"10px"}}>
-        <div>
-            <div style={{backgroundColor:"",padding:"5vh 50px",borderRadius:"20px",marginLeft:"5%"}}>
-                <img src={list.image} alt="image" width={200} height={200} style={{objectFit:"cover",borderRadius:"50%"}} />
-
+      <div className="leftpart-container">
+        <div className="left-section">
+          <div className="profile-card">
+            <img src={list.image.startsWith("https")?list.image : list.file} alt="Profile" />
+          </div>
+          <div className="profile-details">
+            <div>
+              {list.name ? (
+                <h3>{list.name}</h3>
+              ) : (
+                <h3>
+                  {list.firstname} {list.lastname}
+                </h3>
+              )}
+              <h6>
+                {list.job_title} @{list.company}
+              </h6>
+              <h6>{list.description}</h6>
             </div>
-            <div style={{marginLeft:"10%",gap:"20px",display:"flex",flexDirection:"column"}}>
-                <div>
-                 {list.name ? <h3>{list.name}</h3>:<h3>{list.firstname}&nbsp;&nbsp;{list.lastname}</h3>}
-                  <h6>{list.job_title} @{list.company}</h6>
-                  <h6>{list.description}</h6>
-                </div>
-                <div >
-                  {/* <i class="bi-lightbulb-fill text-warning"></i> */}
-                  <h5>skills</h5>
-                  <div className='d-flex gap-3' style={{marginTop:"0px"}}>
-                    {list.skills.length>1 ?(list.skills).map((skill)=>(
-                      <p style={{padding:"5px",backgroundColor:"#ddd",borderRadius:"20px"}}>{skill}</p>
-                    )):(JSON.parse(list.skills[0])).map((skill)=>(
-                      <p style={{padding:"5px",backgroundColor:"#ddd",borderRadius:"20px"}}>{skill}</p>
+            <div className="skills">
+              <h5>Skills</h5>
+              <div className="skill-list">
+                {list.skills.length > 1
+                  ? list.skills.map((skill, index) => (
+                      <p key={index}>{skill}</p>
+                    ))
+                  : JSON.parse(list.skills[0]).map((skill, index) => (
+                      <p key={index}>{skill}</p>
                     ))}
-                  </div>
-                </div>
-                <div>
-                  <p><i class="bi bi-geo-alt-fill text-primary"></i>&nbsp;&nbsp;{list.country}</p>
-                  <p><i class="bi bi-star-fill text-primary"></i>&nbsp;&nbsp;4.8</p>
-                  <p><i class="bi bi-clock-fill text-primary" ></i>&nbsp;&nbsp;Active Today</p>
-                </div>
-                <div>
-                  <h6>{list.about}</h6>
-                </div>
+              </div>
             </div>
-        </div>
-        <div style={{border:"2px solid #ddd",padding:"10px",borderRadius:"20px",marginRight:"5%",height:"55vh",marginTop:"5%",position:"sticky"}}>
-          <p >Membership Plans</p>
-          <div>
-              <h4>{list.price}$/<span>month</span></h4>
-              <p>video calls, pair programming, code reviews, interview practice & unlimited chat on slack.</p>
-              <div>
-                  <p><i class="bi bi-telephone-fill text-primary" ></i>&nbsp;&nbsp;4 calls per month (60min/call)</p>
-                  <p><i class="bi bi-chat-dots-fill text-primary" ></i>&nbsp;&nbsp;Unlimited Q&A via chat</p>
-                  <p><i class="bi bi-clock-fill text-primary" ></i>&nbsp;&nbsp;Expect responses in 24 hours or less</p>
-                  <p><i class="bi bi-bag-fill text-primary"></i>Hands-on support</p>
-              </div>
-              <div>
-                <button className="btn btn-primary w-75 text-white" style={{marginLeft:"5%"}} onClick={handleConnect}>Connect</button>
-              </div>
+            <div className="info">
+              <p>
+                <i className="bi bi-geo-alt-fill text-primary"></i>
+                {list.country}
+              </p>
+              <p>
+                <i className="bi bi-star-fill text-primary"></i>4.8
+              </p>
+              <p>
+                <i className="bi bi-clock-fill text-primary"></i>Active Today
+              </p>
+            </div>
+            <div>
+              <h6>{list.about}</h6>
+            </div>
           </div>
         </div>
-            <ToastContainer position="top-center" autoClose={3000} toastStyle={{ fontSize: "10px", padding: "15px", width: "200px",height:"30px" }}/>
-        
+        <div className="right-section">
+          <p>Membership Plans</p>
+          <div className="membership-details">
+            <h4>
+              {list.price}$/<span>month</span>
+            </h4>
+            <p>
+              Video calls, pair programming, code reviews, interview practice &
+              unlimited chat on Slack.
+            </p>
+            <div className="benefits">
+              <p>
+                <i className="bi bi-telephone-fill text-primary"></i> 4 calls per
+                month (60min/call)
+              </p>
+              <p>
+                <i className="bi bi-chat-dots-fill text-primary"></i> Unlimited
+                Q&A via chat
+              </p>
+              <p>
+                <i className="bi bi-clock-fill text-primary"></i> Expect
+                responses in 24 hours or less
+              </p>
+              <p>
+                <i className="bi bi-bag-fill text-primary"></i> Hands-on support
+              </p>
+            </div>
+            <div className="buttons">
+              <button
+                className="btn btn-primary"
+                data-price={list.price}
+                data-email ={list.email}
+                onClick={handleConnect}
+              >
+                Connect
+              </button>
+              {parseInt(list.price) > 0 ? (
+                <button
+                  className="btn btn-primary"
+                  name={list.price}
+                  onClick={handlePayment}
+                >
+                  PAY
+                </button>
+              ) : (
+                ""
+              )}
+            </div>
+          </div>
+        </div>
       </div>
-   
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        toastStyle={{
+          fontSize: "10px",
+          padding: "15px",
+          width: "200px",
+          height: "30px",
+        }}
+      />
     </>
   )
 }

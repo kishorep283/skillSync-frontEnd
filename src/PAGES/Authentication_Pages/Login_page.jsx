@@ -6,6 +6,8 @@ import { jwtDecode } from "jwt-decode";
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import logo from "../../assets/logo.png"
+import { Api } from '../../Api';
+import "../../STYLES/Login_page.scss"
 const Login_page = () => {
     const[logindetails,setLogin]=useState({email:"",password:""});
     const navigate =useNavigate();
@@ -19,7 +21,7 @@ const Login_page = () => {
         // if (!validateForm()) return; 
 
         try {
-            const response = await fetch("http://localhost:3002/Auth/login", {
+            const response = await fetch(`${Api}/Auth/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(logindetails),
@@ -48,7 +50,7 @@ const Login_page = () => {
         console.log("Google User:", decoded);
     
         try {
-            const response = await axios.post("http://localhost:3002/Auth/google-login", {
+            const response = await axios.post(`${Api}/Auth/google-login`, {
                 email: decoded.email,
                 name: decoded.name
             });
@@ -72,53 +74,67 @@ const Login_page = () => {
 
   return (
      <GoogleOAuthProvider clientId="298562466281-ctsf8ge5ti5dmif748i68sruq031avvh.apps.googleusercontent.com">
-        <div className="d-flex justify-content-between" style={{maxHeight:"100vh"}}>
-            <div style={{padding:"200px 250px",backgroundColor:"#cfe2ff",marginTop:"0%"}}><img src={logo} alt="Logo" width={300} height={200} /></div>
-            <div style={{marginTop:"7%",marginRight:"15%"}}>
-                    <div className="card p-4 shadow" style={{ width: "350px"}}>
-                        <h2 className="text-center">Login</h2>
-                        <form onSubmit={handleSubmit}>
-                            <div className="mb-3">
-                                <label className="form-label">Email</label>
-                                <input
-                                    type="email"
-                                    name="email"
-                                    className="form-control"
-                                    placeholder="Enter your email"
-                                    value={logindetails.email}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-                            <div className="mb-3">
-                                <label className="form-label">Password</label>
-                                <input
-                                    type="password"
-                                    name="password"
-                                    className="form-control"
-                                    placeholder="Enter your password"
-                                    value={logindetails.password}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-                            <button type="submit" className="btn btn-primary w-100">Login</button>
-                        </form>
-                        <div className="text-center mt-3">
-                        <GoogleLogin
-                            onSuccess={handleGoogleLogin}
-                            onError={() => toast.error("Google Login Failed")}
-                        />
-                        </div>
-                        <p className="text-center mt-3">
-                            New user? <Link to="/Auth/Register">Register here</Link>
-                        </p>
-                    </div>
+        <div className="login-container">
+            {/* Logo Section */}
+            <div className="logo-section">
+                <img src={logo} alt="Logo" />
+            </div>
 
-                    {/* Toast Notifications */}
-                    <ToastContainer position="top-center" autoClose={3000} toastStyle={{ fontSize: "10px", padding: "15px", width: "200px",height:"30px" }}/>
+            {/* Login Form */}
+            <div className="login-form">
+                <div className="card">
+                <h2>Login</h2>
+                <form onSubmit={handleSubmit}>
+                    <div className="mb-3">
+                    <label className="form-label">Email</label>
+                    <input
+                        type="email"
+                        name="email"
+                        className="form-control"
+                        placeholder="Enter your email"
+                        value={logindetails.email}
+                        onChange={handleChange}
+                        required
+                    />
+                    </div>
+                    <div className="mb-3">
+                    <label className="form-label">Password</label>
+                    <input
+                        type="password"
+                        name="password"
+                        className="form-control"
+                        placeholder="Enter your password"
+                        value={logindetails.password}
+                        onChange={handleChange}
+                        required
+                    />
+                    </div>
+                    <button type="submit" className="btn btn-primary w-100">Login</button>
+                </form>
+
+                {/* Google Login */}
+                <div className="google-login">
+                    <GoogleLogin
+                    onSuccess={handleGoogleLogin}
+                    onError={() => toast.error("Google Login Failed")}
+                    />
+                </div>
+
+                {/* Register Link */}
+                <p className="text-center">
+                    New user? <Link to="/Auth/Register">Register here</Link>
+                </p>
+                </div>
+
+                {/* Toast Notifications */}
+                <ToastContainer
+                position="top-center"
+                autoClose={3000}
+                toastStyle={{ fontSize: "10px", padding: "15px", width: "200px", height: "30px" }}
+                />
             </div>
         </div>
+
         </GoogleOAuthProvider>
   )
 }

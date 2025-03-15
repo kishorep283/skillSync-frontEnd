@@ -1,11 +1,23 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import image from "./dummy-user.png"
 import { Link } from 'react-router-dom'
 import { Data } from '../../../Data/data'
+import { Api } from '../../../Api'
+import axios from 'axios'
 const Part2 = () => {
+  const[Data,setData]=useState([]);
+  useEffect(()=>{
+     let fetchdata =async()=>{
+      let {data}=await axios.get(`${Api}/Auth/AllData`)
+      let{message}=data;
+      console.log(message)
+      setData(message)
+     }
+     fetchdata()
+  },[])
   return (
     <> 
-      <div className='d-grid gap-5' style={{gridTemplateColumns:"1fr 3fr" ,marginLeft:"10%",marginRight:"10%",marginTop:"5%",backgroundColor:"#f5fdfd",padding:"5%",borderRadius:"20px"}}>
+      <div className='d-grid gap-5' style={{gridTemplateColumns:"1fr 3fr" ,marginLeft:"10%",marginRight:"10%",marginTop:"5%",marginBottom:"3%",backgroundColor:"#F5F5F5",padding:"5%",borderRadius:"20px"}}>
         <div className='d-flex flex-column gap-4' style={{backgroundColor:"white",padding:"20%",width:"20vw"}}>
             <div className='d-flex '>
                 <div>
@@ -28,39 +40,118 @@ const Part2 = () => {
           <h5 style={{fontFamily:"sans-serif"}}>Want to start a new dream career? Successfully build your startup? Itching to learn high-demand skills? Work smart with an online mentor by your side to offer expert advice and guidance to match your zeal. Become unstoppable using SkillSync</h5>
           <div className='d-grid' style={{gridTemplateColumns:"1fr 1fr"}}>
             <div>
-              <h6>Hundred's of Mentors</h6>
-              <h6>Free Trail</h6>
-              <h6>1-to-1</h6>
+              <h6><i class="bi bi-check-circle-fill text-primary"></i>&nbsp;&nbsp;Hundred's of Mentors</h6>
+              <h6><i class="bi bi-check-circle-fill text-primary"></i>&nbsp;&nbsp;Free Trail</h6>
+              <h6><i class="bi bi-check-circle-fill text-primary"></i>&nbsp;&nbsp;1-to-1</h6>
             </div>
             <div>
-              <h6>Flexible Program</h6>
-              <h6>Perfomance Charts</h6>
-              <h6>95% satisfaction rate</h6>
+              <h6><i class="bi bi-check-circle-fill text-primary"></i>&nbsp;&nbsp;Flexible Program</h6>
+              <h6><i class="bi bi-check-circle-fill text-primary"></i>&nbsp;&nbsp;Perfomance Charts</h6>
+              <h6><i class="bi bi-check-circle-fill text-primary"></i>&nbsp;&nbsp;95% satisfaction rate</h6>
             </div>
-            <Link to="/mentor/browse/" ><button style={{backgroundColor:"#1976FF",padding:"5px 10px",color:"white",marginTop:"5%"}}>Find A Mentor </button></Link>
+            <Link to="/mentor/browse/" ><button style={{backgroundColor:"#1976FF",padding:"5px 10px",color:"white",marginTop:"5%",borderRadius:"20px",borderColor:"#F5F5F5"}}>Find A Mentor </button></Link>
           </div>
         </div>
       </div>
-      <div>
-        <h2 style={{paddingLeft:"7%"}}>Explore 800+ Mentors</h2>
-        <div className='d-grid grid-5' style={{gridTemplateColumns:"repeat(4,2fr)",marginLeft:"10%",paddingRight:"5%"}}>
-          {Data.map((card,ind)=>(
-            <Link to={`/mentor/:${card.id}/`} style={{ textDecoration: "none", color: "inherit" }}>
-              <div className='d-flex flex-column gap-2' style={{width:"20vw",height:"70vh",marginBottom:"40px"}} >
-                <img src={card.image} alt="image"  style={{ objectFit:"fill", width: "80%", height: "40vh",borderRadius:"20px" }} />
-                <h4>{card.name}</h4>
-                <h5 style={{fontSize:"1rem"}}>{card.description}</h5>
-                <div className='d-flex gap-2' style={{display:"flex",flexWrap:"wrap"}}>
-                  {card.skills?.map((car,ind)=>(
-                    <h6 style={{backgroundColor:"#ddd",padding:"5px",borderRadius:"20px",fontSize:"0.9rem"}}>{car}</h6>
+         <div 
+            className='d-grid gap-4' 
+            style={{ 
+              gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", 
+              padding: "5%",
+            }}
+          >
+            {Data.map((card, ind) => (
+              <Link 
+                key={ind} 
+                to={`/mentor/${card._id}/`} 
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <div 
+                  className='d-flex flex-column align-items-center p-3 shadow-lg' 
+                  style={{ 
+                    backgroundColor: "#fff", 
+                    borderRadius: "12px", 
+                    height: "100%",  /* Ensures all cards have the same height */
+                    transition: "transform 0.3s ease-in-out", 
+                    border: "1px solid #ddd",
+                    textAlign: "center",
+                    display: "flex", 
+                    flexDirection: "column",
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.05)"}
+                  onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
+                >
+                  {/* Image */}
+                  <img 
+                    src={card.image.startsWith("https") ?card.image : card.file} 
+                    alt="mentor"  
+                    style={{ 
+                      objectFit: "cover", 
+                      width: "100%", 
+                      height: "250px", 
+                      borderRadius: "12px",
+                    }} 
+                  />
 
-                  ))}
+                  {/* Name & Job Title */}
+                  <h4 className="mt-3">{card.firstname} {card.lastname}</h4>
+                  <h5 style={{ fontSize: "1rem", color: "#555", minHeight: "40px" }}>
+                    {card.job_title} at {card.company}
+                  </h5>
+
+                  {/* Skills */}
+                  <div 
+                    className="d-flex gap-2 flex-wrap justify-content-center align-items-center mt-2"
+                    style={{ minHeight: "50px" }}  // Ensures same space for skills
+                  >
+                    {card.skills.length > 1 ? (
+                      card.skills.map((skill, ind) => (
+                        <span 
+                          key={ind} 
+                          style={{ 
+                            backgroundColor: "#f1f1f1", 
+                            padding: "5px 12px", 
+                            borderRadius: "20px", 
+                            fontSize: "0.9rem",
+                            whiteSpace: "nowrap"  // Prevents breaking inside span
+                          }}
+                        >
+                          {skill}
+                        </span>
+                      ))
+                    ) : (
+                      <div className="d-flex gap-2 flex-wrap">
+                        {JSON.parse(card.skills[0])?.map((skill, ind) => (
+                          <span 
+                            key={ind} 
+                            style={{ 
+                              backgroundColor: "#f1f1f1", 
+                              padding: "5px 12px", 
+                              borderRadius: "20px", 
+                              fontSize: "0.9rem",
+                              whiteSpace: "nowrap" 
+                            }}
+                          >
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+
+                  {/* Button (Aligned at Bottom) */}
+                  <div style={{ flexGrow: 1 }}></div> {/* Push button to bottom */}
+                  <button 
+                    className="mt-3 btn btn-primary w-100" 
+                    style={{ borderRadius: "8px", padding: "8px 12px" }}
+                  >
+                    View Profile
+                  </button>
                 </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </div>
+              </Link>
+            ))}
+          </div>
     </>
   )
 }
