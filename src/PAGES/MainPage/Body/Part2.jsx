@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react'
 import image from "./dummy-user.png"
 import { Link } from 'react-router-dom'
 import { Data } from '../../../Data/data'
-import { Api } from '../../../Api'
+// import { Api } from '../../../Api'
 import axios from 'axios'
 import "../../../STYLES/Part2.css"
 const Part2 = () => {
   const[Data,setData]=useState([]);
+  let Api=import.meta.env.SKILLSYNC_BACKEND_API;
   useEffect(()=>{
      let fetchdata =async()=>{
       let {data}=await axios.get(`${Api}/Auth/AllData`)

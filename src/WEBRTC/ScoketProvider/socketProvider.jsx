@@ -9,7 +9,7 @@ export const useSocket = () => {
 };
 
 export const SocketProvider = ({children}) => {
-  const socket = useMemo(() => io("localhost:3002"), []);
+  const socket = useMemo(() => io("https://skillsync-backend-rsyq.onrender.com"), []);
   ;
 
   return (

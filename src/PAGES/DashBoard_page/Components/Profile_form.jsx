@@ -3,8 +3,9 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer,toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-import { Api } from '../../../Api';
+// import { Api } from '../../../Api';
 const Profile_Form = () => {
+    let Api=import.meta.env.SKILLSYNC_BACKEND_API;
     let token = sessionStorage.getItem("token");
     let navigate =useNavigate();
     const[details,setdetails]=useState({comapny:"",About:"",description:"",price:"",job_title:"",country:"",skills:[],image:null});

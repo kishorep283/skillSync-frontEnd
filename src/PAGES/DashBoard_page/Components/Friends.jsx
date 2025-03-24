@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { Api } from '../../../Api';
+// import { Api } from '../../../Api';
 // import "./memborships.css"
 import "../../../STYLES/friends.scss"
 // import "../../../STYLES/memberships.scss"
 const Friends = () => {
+  let Api=import.meta.env.SKILLSYNC_BACKEND_API;
   const[friends,setFriends]=useState([]);
   const[present,setPresent]=useState(false);
     const[mailmessage,setMailMessage]=useState({message:"",roomid:""});

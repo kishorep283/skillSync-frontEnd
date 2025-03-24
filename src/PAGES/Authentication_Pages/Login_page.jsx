@@ -6,9 +6,10 @@ import { jwtDecode } from "jwt-decode";
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import logo from "../../assets/logo.png"
-import { Api } from '../../Api';
+// import { Api } from '../../Api';
 import "../../STYLES/Login_page.scss"
 const Login_page = () => {
+    let Api=import.meta.env.SKILLSYNC_BACKEND_API;
     const[logindetails,setLogin]=useState({email:"",password:""});
     const navigate =useNavigate();
     const handleChange=(e)=>{

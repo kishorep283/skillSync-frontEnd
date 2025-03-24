@@ -5,12 +5,13 @@ import { ToastContainer,toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { loadStripe } from "@stripe/stripe-js";
 import "../../../STYLES/leftpart.scss"
-import { Api } from '../../../Api';
+// import { Api } from '../../../Api';
 import useFetch from '../../../Data/ApiData';
 // import { Data } from '../../../Data/data';
 const Leftpart = () => {
+  let Api=import.meta.env.SKILLSYNC_BACKEND_API;
     let{query_id}=useParams();
-    const stripePromise = loadStripe(import.meta.env.VITE_PUBLISH_KEY);
+    const stripePromise = loadStripe(import.meta.env.SKILLSYNC_PUBLISHED_KEY);
     const[list,setList]=useState(null);
     const[payment,setPayment]=useState(false);
     const[email,setEmail]=useState("");

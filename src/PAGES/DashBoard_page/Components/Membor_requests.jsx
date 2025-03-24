@@ -4,9 +4,10 @@ import { ToastContainer,toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 // import { useAuth } from './AuthContext';
 import { Link } from 'react-router-dom';
-import { Api } from '../../../Api';
+// import { Api } from '../../../Api';
 import "../../../STYLES/memberships.scss"
 const MemborRequests = () => {
+  let Api=import.meta.env.SKILLSYNC_BACKEND_API;
     const[requests,setrequests] = useState([]);
     let token =sessionStorage.getItem("token");
     // console.log(email)

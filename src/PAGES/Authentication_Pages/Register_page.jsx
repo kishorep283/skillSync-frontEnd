@@ -3,9 +3,10 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
-import { Api } from "../../Api";
+// import { Api } from "../../Api";
 import "../../STYLES/register_page.scss"
 const RegisterPage = () => {
+  let Api=import.meta.env.SKILLSYNC_BACKEND_API;
   const [register, setRegister] = useState({
     email: "",
     password: "",

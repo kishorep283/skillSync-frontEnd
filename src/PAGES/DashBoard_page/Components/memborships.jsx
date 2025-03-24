@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { Api } from '../../../Api';
+// import { Api } from '../../../Api';
 // import "./memborships.css"
 import "../../../STYLES/memberships.scss"
 import "react-toastify/dist/ReactToastify.css";
 import { toast ,ToastContainer } from 'react-toastify';
 const Memborships = () => {
+  let Api=import.meta.env.SKILLSYNC_BACKEND_API;
   const[friends,setFriends]=useState([]);
   const[mailmessage,setMailMessage]=useState({message:"",roomid:""});
   const[present,setPresent]=useState(false);
