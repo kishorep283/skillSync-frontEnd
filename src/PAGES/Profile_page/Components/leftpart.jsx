@@ -6,19 +6,19 @@ import "react-toastify/dist/ReactToastify.css";
 import { loadStripe } from "@stripe/stripe-js";
 import "../../../STYLES/leftpart.scss"
 import { Api } from '../../../Api';
+import useFetch from '../../../Data/ApiData';
 // import { Data } from '../../../Data/data';
 const Leftpart = () => {
     let{query_id}=useParams();
     const stripePromise = loadStripe(import.meta.env.VITE_PUBLISH_KEY);
-    // console.log(query_id);
-    // let query = parseInt(query_id);
-    // console.log(query);
     const[list,setList]=useState(null);
-    // const[price,setPrice]=useState(0);
     const[payment,setPayment]=useState(false);
-    const[userData,setUserData]=useState([]);
+    const[email,setEmail]=useState("");
+    // const {userData} = useFetch(`${Api}/Auth/AllData`)
+    const[userData,setUserData]=useState([])
     let token =sessionStorage.getItem("token");
     let login = sessionStorage.getItem("login");
+    
     // console.log(token);
     useEffect(()=>{
         let newdata =async()=>{
@@ -31,14 +31,32 @@ const Leftpart = () => {
     },[])
 
     useEffect(()=>{
+      if(userData.length ===0) return;
       let filterdata = userData.find((item)=>item._id===query_id);
+      console.log(filterdata);
       if(filterdata){
          setList(filterdata)
       }
-      console.log(list);
+      setEmail(filterdata["email"]);
     },[userData,query_id]);
     // handle connection 
     
+    useEffect(()=>{
+      if(!email) return;
+      const currentTime = new Date().getTime();
+      const oneMonth = 30 * 24 * 60 * 60 * 1000;
+      let localData = JSON.parse(localStorage.getItem(email));
+      console.log(localData)
+      if(!localData) return ;
+      let {status,timestamp} = localData
+      if(status && currentTime-timestamp < oneMonth){
+        setPayment(true);
+      }else{
+        setPayment(false);
+        localStorage.removeItem(email);
+      }
+    },[email])
+
     let handleConnect =async(e)=>{
       e.preventDefault();
       if(!login){
@@ -71,13 +89,15 @@ const Leftpart = () => {
     }
     
     let handlePayment =async(e)=>{
-      let amt = parseInt(e.target.name);
+      
+      let amt = parseInt(e.target.dataset.price);
+      let email =e.target.dataset.email;
       // setPrice(parseInt(e.target.name));
-      if(amt===0){
+      if(amt===0 || payment){
         setPayment(true);
         toast.error("No Need To Do Payment")
       }
-      if(amt>0){
+      else{
         const stripe = await stripePromise;
         const response = await fetch("http://localhost:3002/connection/payment", {
           method: "POST",
@@ -87,9 +107,14 @@ const Leftpart = () => {
         const session = await response.json();
 
         if(session.id){
-          setPayment(true);
+          // setPayment(true);
+          const paymentData = {
+            status: true,
+            timestamp: new Date().getTime(), // Store the current time
+          };
+          localStorage.setItem(email, JSON.stringify(paymentData));
           await stripe.redirectToCheckout({ sessionId: session.id });
-          // toast.success("Payment Successfull");
+          toast.success("Payment Successfull");
           console.log("i'm invoked in if block")
         }else{
           toast.error("Payment Failed");
@@ -152,7 +177,7 @@ const Leftpart = () => {
           <p>Membership Plans</p>
           <div className="membership-details">
             <h4>
-              {list.price}$/<span>month</span>
+              {list.price} &#8377;/<span>month</span>
             </h4>
             <p>
               Video calls, pair programming, code reviews, interview practice &
@@ -187,7 +212,8 @@ const Leftpart = () => {
               {parseInt(list.price) > 0 ? (
                 <button
                   className="btn btn-primary"
-                  name={list.price}
+                  data-price={list.price}
+                  data-email={list.email}
                   onClick={handlePayment}
                 >
                   PAY

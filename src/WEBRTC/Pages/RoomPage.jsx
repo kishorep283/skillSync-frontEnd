@@ -2,7 +2,7 @@ import React, { useEffect, useCallback, useState ,useRef} from "react";
 import ReactPlayer from "react-player";
 import peer from "../Services/peerService";
 import { useSocket } from "../ScoketProvider/socketProvider";
-
+import "../../STYLES/WebRtc_room_page.scss"
 const RoomPage = () => {
   const socket = useSocket();
   const [remoteSocketId, setRemoteSocketId] = useState(null);
@@ -190,125 +190,64 @@ const RoomPage = () => {
   };
 
   return (
-    <div>
-      <h1 style={{marginLeft:"40%"}}>Room Page</h1>
-      <h4 style={{marginLeft:"40%"}}>{remoteSocketId ? "Connected" : "No one in room"}</h4>
-      {myStream && <button onClick={sendStreams} style={{padding:"10px 20px",marginLeft:"40%"}}>Send Stream</button>}
-      
-        <div style={{display:"flex",justifyContent:"space-between",marginTop:"5%"}}>
-            {myStream && (
-                <div style={{display:"flex",flexDirection:"column"}}>
-                <h1 style={{marginleft:"5%"}}>My Stream</h1><br />
-                <ReactPlayer
-                    playing
-                    muted
-                    height="400px"
-                    width="600px"
-                    url={myStream}
-                />
-                </div>
-            )}
-            {remoteStream && (
-                <div style={{display:"flex",flexDirection:"column"}}>
-                <h1 style={{marginleft:"5%"}}>Remote Stream</h1><br />
-                <ReactPlayer
-                    playing
-                    muted
-                    height="400px"
-                    width="600px"
-                    url={remoteStream}
-                />
-                </div>
-            )}
-        </div>
-        <div style={{display:"flex",marginleft:'20%',marginRight:"20%",gap:"3%"}}>
-            {remoteSocketId &&  (
-            <button
-            onClick={handleCallUser}
-            style={{
-                padding: "10px 20px",
-                borderRadius:"20px",
-                marginRight:"1%",
-                backgroundColor: "green",
-                color: "White",
-                marginLeft:"40%"
-            }}
-            >
-            CALL
-            </button>
-            )}
-            {callon && (
-                <button
-                onClick={handleEndCall}
-                style={{
-                    backgroundColor: "red",
-                    color: "white",
-                    padding: "10px 20px",
-                    border: "none",
-                    // borderRadius: "5px",
-                    cursor: "pointer",
-                    fontSize: "16px",
+    <div className="room-container" style={{marginTop:"80px"}}>
+      <h1>Room Page</h1>
+      <h4>{remoteSocketId ? 'Connected' : 'No one in room'}</h4>
 
-                    borderRadius:"20px",
-                }}
-                >
-                End Call
-                </button>
-            )}
-            <button
-                onClick={toggleVideo}
-                style={{
-                backgroundColor: "orange",
-                color: "white",
-                padding: "10px 20px",
-                border: "none",
-                // borderRadius: "5px",
-                cursor: "pointer",
-                fontSize: "16px",
-                marginTop: "10px",
-                borderRadius:"20px",
-                marginLeft:"1%"
-                }}
-            >
-                {videoEnabled ? "Turn Off Video" : "Turn On Video"}
-            </button>
-
-        </div>
-        <h2 style={{marginLeft:"40%"}}>Chat Box</h2>
-        <div
-            style={{
-            maxWidth: "50vw",
-            alignSelf: "center",
-            marginLeft: "30%",
-            border: "1px solid grey",
-            padding: "10px",
-            height: "200px",
-            overflowY: "auto",
-            }}>
-            {messages.map((msg, index) => (
-            <p key={index} style={{ marginRight: "20%" }}>
-                <strong>{msg.sender}:</strong> {msg.message}
-            </p>
-            ))}
-        </div>
-        <div style={{marginLeft:"40%"}}>
-        <input
-            style={{ padding: "10px 40px", marginTop: "1%" }}
-            type="text"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            placeholder="Type a message..."
-        />
-        <button
-            onClick={sendMessage}
-            style={{
-            padding: "10px 20px",
-            backgroundColor: "green",
-            color: "white",
-            }}
-        >
-            Send
+      {myStream && (
+        <button className="call-btn" onClick={sendStreams}>
+          Send Stream
         </button>
+      )}
+
+      <div className="stream-container">
+        {myStream && (
+          <div className="stream">
+            <h1>My Stream</h1>
+            <ReactPlayer className="video-players" playing muted  url={myStream} />
+          </div>
+        )}
+        {remoteStream && (
+          <div className="stream">
+            <h1>Remote Stream</h1>
+            <ReactPlayer className="video-players" playing muted  url={remoteStream} />
+          </div>
+        )}
+      </div>
+
+      <div className="button-container">
+        {remoteSocketId && (
+          <button className="call-btn" onClick={handleCallUser}>
+            CALL
+          </button>
+        )}
+        {callon && (
+          <button className="end-btn" onClick={handleEndCall}>
+            End Call
+          </button>
+        )}
+        <button className="toggle-btn" onClick={toggleVideo}>
+          {videoEnabled ? 'Turn Off Video' : 'Turn On Video'}
+        </button>
+      </div>
+
+      <h2>Chat Box</h2>
+      <div className="chat-container">
+        {messages.map((msg, index) => (
+          <p key={index}>
+            <strong>{msg.sender}:</strong> {msg.message}
+          </p>
+        ))}
+      </div>
+
+      <div className="input-container">
+        <input
+          type="text"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          placeholder="Type a message..."
+        />
+        <button onClick={sendMessage}>Send</button>
       </div>
     </div>
   );

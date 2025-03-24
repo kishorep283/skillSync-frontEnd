@@ -15,7 +15,7 @@ const InfiniteScrollCards = () => {
         {cards.map((card) => (
           <div
             key={card.id}
-            className="bg-white rounded-lg  p-6 w-[300px] mx-auto mb-4" style={{width:"28vw",border:"2px solid #ddd", padding:"10px",borderRadius:"20px"}}
+            className="rounded-lg  p-6 w-[300px] mx-auto mb-4" style={{width:"28vw",border:"2px solid #ddd", padding:"10px",borderRadius:"20px",backgroundColor:"var(--background-color)"}}
           >
             <h5 className="text-lg font-bold mb-2">{card.title}</h5>
             <p className="text-gray-600">{card.content}</p>
@@ -24,7 +24,7 @@ const InfiniteScrollCards = () => {
         {cards.map((card) => (
           <div
             key={`${card.id}-clone`}
-            className="bg-white rounded-lg  p-6 w-[300px] mx-auto mb-4" style={{width:"28vw",border:"2px solid #ddd", padding:"10px",borderRadius:"20px"}}
+            className="rounded-lg  p-6 w-[300px] mx-auto mb-4" style={{width:"28vw",border:"2px solid #ddd", padding:"10px",borderRadius:"20px",backgroundcolor:"var(--background-color)"}}
           >
             <h5 className="text-lg font-bold mb-2">{card.title}</h5>
             <p className="text-gray-600">{card.content}</p>

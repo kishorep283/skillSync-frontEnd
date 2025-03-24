@@ -38,14 +38,14 @@ const Dashboard = () => {
       <div className="dashboard-container">
         <div>
           {userData ? (
-            <h3 style={{color:"#333333"}}>
+            <h3 style={{color:"var(--text-color)"}}>
               Welcome,{" "}
               {userData.name ? userData.name.split(" ")[0] : userData.firstname}!
             </h3>
           ) : (
             <p>Loading.....</p>
           )}
-          <h4 style={{color:"#333333"}}>
+          <h4 style={{color:"var(--text-color)"}}>
             Start Connecting With Mentors to explore your career to the next
             level
           </h4>

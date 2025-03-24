@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 // import { useAuth } from './AuthContext';
 import { Link } from 'react-router-dom';
 import { Api } from '../../../Api';
+import "../../../STYLES/memberships.scss"
 const MemborRequests = () => {
     const[requests,setrequests] = useState([]);
     let token =sessionStorage.getItem("token");
@@ -37,43 +38,70 @@ const MemborRequests = () => {
     })
     console.log(typeof requests[0] ==="string");
     console.log(requests);
-  return (
-    <>
-      <div style={{marginBottom:"5%",marginLeft:"45%",marginTop:"3%"}}>
-      <Link to="/DashBoard/connections/requests"><button style={{padding:"5px 10px",border:"2px solid grey",borderRadius:"20px"}}>Friend Requests</button></Link>&nbsp;&nbsp;
-      <Link to="/DashBoard/connections/membor_requests"><button style={{padding:"5px 10px",border:"2px solid grey",borderRadius:"20px"}}>Membership_Requests</button></Link>&nbsp;&nbsp;
-      <Link to="/DashBoard/connections/memborships"><button style={{padding:"5px 10px",border:"2px solid grey",borderRadius:"20px"}}>Memberships</button></Link>&nbsp;&nbsp;
-      <Link to="/DashBoard/connections/friends"><button style={{padding:"5px 10px",border:"2px solid grey",borderRadius:"20px"}}>Friends</button></Link>
-      </div>
-      {typeof requests[0]=== "string" && <h3>{requests[0]}</h3>}
-      <div style={{margin:"0px 7%",display:"flex",flexDirection:"column",borderRadius:"20px",padding:"10px"}}>
-        {typeof requests[0] !== "string" && requests.map((reqe,ind)=>(
-          <div className='d-flex' style={{display:"flex",justifyContent:"space-between",border:"2px solid black",borderRadius:"20px"}}>
-            <div style={{marginLeft:"5%"}}>
-            <img src={reqe.image} alt="" width={200} height={200}/>
-            <h4>{reqe.about}</h4>
-            </div>
-            <div style={{marginRight:"10%"}}>
-              <h3>{reqe.firstname}&nbsp;&nbsp;{reqe.lastname}</h3>
-              <h4>{reqe.email}</h4>
-              <h4>{reqe.job_title} at {reqe.company}</h4>
-              <div style={{display:"flex" ,gap:"5px"}}>
-                <h4>{reqe.skills.length>1 ? reqe.skills.map((skill,ind)=>(
-                  <p style={{fontSize:"0.5rem"}}>{skill}</p>
-                
-                )):JSON.parse(reqe.skills[0]).map((skill,ind)=>(
-                  <span style={{fontSize:"1rem"}}>{skill}</span>
-                ))}</h4>
-              </div>
-              <button style={{padding:"5px 10px",borderRadius:"20px"}} name={reqe.email} onClick={handleResponse}>Accept</button>&nbsp;&nbsp;
-              <button style={{padding:"5px 10px",borderRadius:"20px"}} name={reqe.email} onClick={handleResponse}>Reject</button>
-            </div>
+    return (
+      <div className="membership-container">
+        <h4 className="title">Membership Requests</h4>
+  
+        <div className="tab-links">
+          <Link to="/DashBoard/connections/requests">
+            <button>Friend Requests</button>
+          </Link>
+          <Link to="/DashBoard/connections/membor_requests">
+            <button>Membership Requests</button>
+          </Link>
+          <Link to="/DashBoard/connections/memborships">
+            <button>Memberships</button>
+          </Link>
+          <Link to="/DashBoard/connections/friends">
+            <button>Friends</button>
+          </Link>
+        </div>
+  
+        {typeof requests[0] === "string" ? (
+          <div className="empty-message">
+            <h3>{requests[0]}</h3>
           </div>
-        ))}
+        ) : (
+          <div className="cards-container">
+            {requests.map((reqe, ind) => (
+              <div key={ind} className="card">
+                <div className="card-image">
+                  <img
+                    src={reqe.image || "https://static.everypixel.com/ep-pixabay/0329/8099/0858/84037/3298099085884037069-head.png"}
+                    alt="Profile"
+                  />
+                </div>
+  
+                <div className="card-details">
+                  <h4>{reqe.firstname} {reqe.lastname}</h4>
+                  <h5>{reqe.email}</h5>
+                  <h5>{reqe.job_title} at {reqe.company}</h5>
+                  <p>{reqe.about}</p>
+  
+                  <div className="skills">
+                    {reqe.skills.length >1 
+                      ? reqe.skills.map((skill, i) => (
+                          <span key={i}>{skill}</span>
+                        ))
+                      : JSON.parse(reqe.skills[0]).map((skill, i) => (
+                          <span key={i}>{skill}</span>
+                        ))
+                    }
+                  </div>
+                </div>
+  
+                <div className="card-actions">
+                  <button className="accept"   name={reqe.email} onClick={handleResponse}>Accept</button>
+                  <button className="reject" name={reqe.email} onClick={handleResponse}>Reject</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+  
+        <ToastContainer position="top-center" autoClose={3000} toastStyle={{ fontSize: "10px", padding: "15px", width: "200px", height: "30px" }} />
       </div>
-      <ToastContainer position="top-center" autoClose={3000} toastStyle={{ fontSize: "10px", padding: "15px", width: "200px",height:"30px" }}/>
-    </>
-  )
+    );
 }
 
 export default MemborRequests;

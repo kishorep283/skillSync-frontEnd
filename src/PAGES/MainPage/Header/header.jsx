@@ -1,14 +1,22 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 import logo from "../../../assets/logo.png";
+
+import plain_logo from "../../../assets/plain_theme.png"
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import debounce from "lodash.debounce";
+import { FaBars, FaTimes } from "react-icons/fa";
 import "./header.css";
+import { ThemeContext } from "../ThemeContext";
 const Header = () => {
   const [islogin, setlogin] = useState(false);
   const[value,setValue]=useState("");
   const[locator,setLocator]=useState(true);
+  const[bars,setbars]=useState(false);
+  const[searchbar,setSearchBar]=useState(false)
+  const{theme,Updatetheme}=useContext(ThemeContext);
+  const navRef =useRef();
   let navigate =useNavigate();
   useEffect(() => {
     let data = sessionStorage.getItem("login");
@@ -18,17 +26,11 @@ const Header = () => {
       setlogin(false);
     }
   }, [islogin]);
-  // const handleSearch =(e)=>{
-  //   setValue(e.target.value);
-  //   let params = new URLSearchParams();
-  //   if(value.trim()) params.set("search",value);
-  //   let queryString =params.toString();
-  //   value.length >0 ? navigate(`/mentor/browse?${queryString}`): navigate("/")
-  // }
   let location =useLocation();
   useEffect(()=>{
     if(location.pathname.includes("mentor/browse")){
       setLocator(false);
+      setSearchBar(true)
     }
   },[])
   
@@ -37,8 +39,8 @@ const Header = () => {
       let params = new URLSearchParams();
       if (searchValue.trim()) params.set("search", searchValue);
       let queryString = params.toString();
-      searchValue.length > 0
-        ? navigate(`/mentor/browse?${queryString}`)
+      searchValue.length > 0?
+        navigate(`/mentor/browse?${queryString}`)
         : (locator ? navigate(`/mentor/browse`):navigate("/"));
     }, 1000), // 500ms debounce time
     [navigate]
@@ -48,22 +50,22 @@ const Header = () => {
     setValue(e.target.value);
     debouncedSearch(e.target.value);
   };
-  // useEffect(()=>{
-  //   let params = new URLSearchParams();
-  //   if(value.trim()) params.set("search",value);
-  //   let queryString= params.toString();
-  //   navigate(`/mentor/browse?${queryString}`)
-  // },[value])
+  const showNavbar = () => {
+		navRef.current.classList.toggle(
+			"responsive_nav"
+		);
+		setbars(!bars);
+	};
   return (
     <>
-      <header>
-        <div
-          className="d-flex justify-content-between align-items-center p-1 "
-          style={{ width: "100vw", backgroundColor: "#F5F5F5",borderBottom:"2px solid #bbb",top:"0",position:"sticky",zIndex:"1000" }}
+      
+        <header
+          className="d-flex justify-content-between align-items-center p-1 header "
+          
         >
           <div style={{ display: "flex", paddingLeft: "7%" }}>
             <Link to="/">
-              <img src={logo} alt="logo" width={150} height={100} />
+              <img src={theme ==="light"?logo : plain_logo} alt="logo" width={150} height={100} />
             </Link>
           </div>
           <div className="input-group" style={{ width: "30vw" }}>
@@ -78,24 +80,38 @@ const Header = () => {
               onChange={handleSearch}
             />
           </div>
-          <div style={{ paddingRight: "7%" }}>
-            <Link to="/mentor/browse">
-              <button className="btn btn-primary me-2">
-                Browse All Mentors
-              </button>
-            </Link>
-            {islogin ? (
-              <Link to="/DashBoard/mentors">
-                <button className="btn btn-primary me-2">DashBoard</button>
-              </Link>
-            ) : (
-              <Link to="/Auth/Login">
-                <button className="btn btn-outline-primary">Login</button>
-              </Link>
-            )}
-          </div>
-        </div>
-      </header>
+                <button className="theme-button" style={{color:theme==="light"?"white":"black" ,backgroundColor:theme==="light"?"black":"white",borderRadius:"20px"}} onClick={Updatetheme}>
+                  {theme === 'light' ? '🌙' : '🌤️'}
+                </button>
+            <nav ref={navRef}>
+              <div style={{maxWidth:"100%",marginLeft:"-20%",className:"navbar"}}>
+                <Link to="/mentor/browse">
+                  <button className="btn btn-primary me-2">
+                    Browse All Mentors
+                  </button>
+                </Link>
+                {islogin ? (
+                  <Link to="/DashBoard/mentors">
+                    <button className="btn btn-primary me-2">DashBoard</button>
+                  </Link>
+                ) : (
+                  <Link to="/Auth/Login">
+                    <button className="btn btn-primary me-2 login">Login</button>
+                  </Link>
+                )}
+              </div>
+            </nav>
+            {bars===false ?	<button
+              className="nav-btn"
+              onClick={showNavbar}>
+              <FaBars />
+            </button>: <button
+                className="nav-btn nav-close-btn"
+                onClick={showNavbar}>
+                <FaTimes />
+              </button>}
+        </header>
+      
     </>
   );
 };

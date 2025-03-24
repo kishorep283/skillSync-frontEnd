@@ -4,6 +4,10 @@ import { useState } from 'react';
 import { Skills1 } from '../Data/Skills';
 import { Roles1 } from '../Data/Job_titles';
 import { Company1 } from '../Data/Company';
+import "../STYLES/Filters.css"
+import "../STYLES/globaltheme.css"
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 const Filters_page = () => {
     const[value,setValue]=useState("");
     const[debouncevalue,setDebouncevalue]=useState("");
@@ -61,9 +65,9 @@ const Filters_page = () => {
     },[value,skilllist,jobs,company,navigate])
 
   return (
-    <div className="d-flex flex-column gap-3" style={{marginLeft:'10%'}}>
-        <div>
-            {/* <form onSubmit={handleSubmit}> */}
+    <div>
+    <div className="container-custom">
+        <div>  
             <input 
             type="text"
             onChange={handleSearch} 
@@ -72,9 +76,8 @@ const Filters_page = () => {
             className='form-control w-100'
             style={{width:"300px"}}
             />
-            <h4 style={{marginTop:"20px"}}>100+ mentors</h4>
-            {/* </form> */}
-        </div>
+            <h4 style={{marginTop:"20px"}}>100+ mentors</h4>     
+        </div> 
         <div>
             <h3>Skills</h3>
             <div style={{display:"flex" ,flexDirection:"column",gap:'10px'}}>
@@ -87,7 +90,7 @@ const Filters_page = () => {
                             checked={skilllist.includes(skill)} 
                             onChange={handleSkillChange} 
                         />
-                        {skill}
+                        <span>{skill}</span>
                     </label>
                 </div>
                 ))}
@@ -105,7 +108,7 @@ const Filters_page = () => {
                             checked={jobs.includes(skill)} 
                             onChange={handleJobChange} 
                         />
-                        {skill}
+                        <span >{skill}</span>
                     </label>
                 </div>
                 ))}
@@ -123,12 +126,93 @@ const Filters_page = () => {
                             checked={company.includes(skill)} 
                             onChange={handleCompanyChange} 
                         />
-                        {skill}
+                        <span >{skill}</span>
                     </label>
                 </div>
                 ))}
             </div>
-        </div>     
+        </div> 
+    </div>
+        <div className="dropdown">
+            {/* Dropdown Button */}
+                <div>  
+                    <input 
+                    type="text"
+                    onChange={handleSearch} 
+                    value={value}
+                    placeholder='search for any skill,title, or company'
+                    className='form-control w-75 searching'
+                    style={{width:"100vw"}}
+                    />
+                    <h4 style={{marginTop:"20px"}} className='h4'>100+ mentors</h4>
+                
+                </div>
+            <button className="btn btn-primary dropdown-toggle  dropdown-button" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Filters
+            </button>
+            
+            {/* Dropdown Content */}
+            <div className="dropdown-menu p-3">
+                
+                {/* Skills Section */}
+                <div>
+                    <h5>Skills</h5>
+                    <div className="d-flex flex-column gap-2">
+                        {Skills1.map(skill => (
+                        <label key={skill}>
+                            <input 
+                            type="checkbox" 
+                            value={skill} 
+                            checked={skilllist.includes(skill)} 
+                            onChange={handleSkillChange} 
+                            />
+                            <span>{skill}</span>
+                        </label>
+                        ))}
+                    </div>
+                </div>
+
+                <hr />
+
+                {/* Job Titles Section */}
+                <div>
+                    <h5>Job Titles</h5>
+                    <div className="d-flex flex-column gap-2">
+                        {Roles1.map(skill => (
+                        <label key={skill}>
+                            <input 
+                            type="checkbox" 
+                            value={skill} 
+                            checked={jobs.includes(skill)} 
+                            onChange={handleJobChange} 
+                            />
+                            <span>{skill}</span>
+                        </label>
+                        ))}
+                    </div>
+                </div>
+
+                <hr />
+
+                {/* Company Section */}
+                <div>
+                    <h5>Company</h5>
+                    <div className="d-flex flex-column gap-2">
+                        {Company1.map(skill => (
+                        <label key={skill}>
+                            <input 
+                            type="checkbox" 
+                            value={skill} 
+                            checked={company.includes(skill)} 
+                            onChange={handleCompanyChange} 
+                            />
+                            <span>{skill}</span>
+                        </label>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
   )
 }

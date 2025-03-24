@@ -31,19 +31,19 @@
         width: 350px;
         border-radius: 15px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        background: #fff;
+        background: var(--background-color);
       }
   
       h2 {
         text-align: center;
         font-size: 26px;
         font-weight: bold;
-        color: #333;
+        color: var(--text-color);
       }
   
       .form-label {
         font-weight: 600;
-        color: #444;
+        color: var(--text-color);
       }
   
       .form-control {
@@ -52,7 +52,7 @@
         border: 1px solid #ddd;
         transition: 0.3s;
         &:focus {
-          border-color: #007bff;
+          border-color: var(--secondary-color);
           box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
         }
       }
@@ -72,9 +72,9 @@
       .text-center {
         margin-top: 15px;
         font-size: 14px;
-        color: #666;
+        color: var(--text-color);
         a {
-          color: #007bff;
+          color: var(--secondary-color);
           text-decoration: none;
           &:hover {
             text-decoration: underline;
@@ -86,6 +86,109 @@
         display: flex;
         justify-content: center;
         margin-top: 15px;
+      }
+    }
+  }
+  
+  @media (max-width: 1024px) {
+    .login-container {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      
+      .logo-section {
+        padding: 100px 150px;
+        img {
+          width: 250px;
+          height: 150px;
+        }
+      }
+  
+      .login-form {
+        margin-right: 0;
+        margin-top: 30px;
+        
+        .card {
+          width: 90%;
+          max-width: 400px;
+        }
+      }
+    }
+  }
+  
+  /* For mobile devices */
+  @media (max-width: 600px) {
+    .login-container {
+      .logo-section {
+        padding: 50px 80px;
+        img {
+          width: 180px;
+          height: 120px;
+        }
+      }
+  
+      .login-form {
+        .card {
+          padding: 20px;
+          width: 100%;
+          max-width: 480px;
+        }
+  
+        h2 {
+          font-size: 22px;
+        }
+  
+        .form-control {
+          padding: 10px;
+        }
+  
+        .btn-primary {
+          padding: 10px;
+          font-size: 14px;
+        }
+  
+        .text-center {
+          font-size: 12px;
+        }
+      }
+    }
+  }
+  
+  /* For very small screens */
+  @media (max-width: 400px) {
+    .login-container {
+      .logo-section {
+        padding: 30px 50px;
+        img {
+          width: 150px;
+          height: 100px;
+        }
+      }
+  
+      .login-form {
+        width: 80%;
+        .card {
+          padding: 15px;
+          width: 100%;
+          max-width: 480px;
+        }
+  
+        h2 {
+          font-size: 20px;
+        }
+  
+        .form-control {
+          padding: 8px;
+        }
+  
+        .btn-primary {
+          padding: 8px;
+          font-size: 12px;
+        }
+  
+        .text-center {
+          font-size: 10px;
+        }
       }
     }
   }

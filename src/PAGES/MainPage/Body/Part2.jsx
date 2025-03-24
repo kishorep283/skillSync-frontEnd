@@ -4,47 +4,48 @@ import { Link } from 'react-router-dom'
 import { Data } from '../../../Data/data'
 import { Api } from '../../../Api'
 import axios from 'axios'
+import "../../../STYLES/Part2.css"
 const Part2 = () => {
   const[Data,setData]=useState([]);
   useEffect(()=>{
      let fetchdata =async()=>{
       let {data}=await axios.get(`${Api}/Auth/AllData`)
       let{message}=data;
-      console.log(message)
+      // console.log(message)
       setData(message)
      }
      fetchdata()
   },[])
   return (
-    <> 
-      <div className='d-grid gap-5' style={{gridTemplateColumns:"1fr 3fr" ,marginLeft:"10%",marginRight:"10%",marginTop:"5%",marginBottom:"3%",backgroundColor:"#F5F5F5",padding:"5%",borderRadius:"20px"}}>
-        <div className='d-flex flex-column gap-4' style={{backgroundColor:"white",padding:"20%",width:"20vw"}}>
-            <div className='d-flex '>
+    <div style={{backgroundColor:"var(--background-color)"}}> 
+      <div className='mainn'>
+        <div className='sidebar'>
+            <div className='d-flex sideer'>
                 <div>
                     <h6>john cruise</h6>
                     <h6>software Engineer</h6>
-                    <h6>Engineer</h6>
+                    {/* <h6>Engineer</h6> */}
                 </div>
                 <div>
                     <img src={image} alt="image" width={80} height={80} style={{borderRadius:"50px"}}/>
                 </div>
             </div>
             <div className='d-flex flex-column gap-3'>
-              <h6 style={{backgroundColor:"#ddd",padding:"4%"}}>Intro session</h6>
-              <h6 style={{backgroundColor:"#ddd",padding:"4%"}}>Cv review</h6>
-              <h6 style={{backgroundColor:"#ddd",padding:"4%"}}>Expert Session</h6>
+              <h6 style={{backgroundColor:"var(--border-color)",padding:"4%"}}>Intro session</h6>
+              <h6 style={{backgroundColor:"var(--border-color)",padding:"4%"}}>Cv review</h6>
+              <h6 style={{backgroundColor:"var(--border-color)",padding:"4%"}}>Expert Session</h6>
             </div>
         </div>
         <div className="d-flex flex-column gap-4"style={{padding:"5%"}}>
-          <h2 style={{fontFamily:"sans-serif"}}>It's In your Hand : Grab It and full fill your Dream</h2>
-          <h5 style={{fontFamily:"sans-serif"}}>Want to start a new dream career? Successfully build your startup? Itching to learn high-demand skills? Work smart with an online mentor by your side to offer expert advice and guidance to match your zeal. Become unstoppable using SkillSync</h5>
-          <div className='d-grid' style={{gridTemplateColumns:"1fr 1fr"}}>
-            <div>
+          <h2 style={{fontFamily:"sans-serif"}} className='head'>It's In your Hand : Grab It and full fill your Dream</h2>
+          <h5 style={{fontFamily:"sans-serif"}} className='heade'>Want to start a new dream career? Successfully build your startup? Itching to learn high-demand skills? Work smart with an online mentor by your side to offer expert advice and guidance to match your zeal. Become unstoppable using SkillSync</h5>
+          <div className='fav'>
+            <div className='fav-left'>
               <h6><i class="bi bi-check-circle-fill text-primary"></i>&nbsp;&nbsp;Hundred's of Mentors</h6>
               <h6><i class="bi bi-check-circle-fill text-primary"></i>&nbsp;&nbsp;Free Trail</h6>
               <h6><i class="bi bi-check-circle-fill text-primary"></i>&nbsp;&nbsp;1-to-1</h6>
             </div>
-            <div>
+            <div className='fav-right'>
               <h6><i class="bi bi-check-circle-fill text-primary"></i>&nbsp;&nbsp;Flexible Program</h6>
               <h6><i class="bi bi-check-circle-fill text-primary"></i>&nbsp;&nbsp;Perfomance Charts</h6>
               <h6><i class="bi bi-check-circle-fill text-primary"></i>&nbsp;&nbsp;95% satisfaction rate</h6>
@@ -60,7 +61,7 @@ const Part2 = () => {
               padding: "5%",
             }}
           >
-            {Data.map((card, ind) => (
+            {Data.slice(0,15).map((card, ind) => (
               <Link 
                 key={ind} 
                 to={`/mentor/${card._id}/`} 
@@ -69,11 +70,11 @@ const Part2 = () => {
                 <div 
                   className='d-flex flex-column align-items-center p-3 shadow-lg' 
                   style={{ 
-                    backgroundColor: "#fff", 
+                    backgroundColor: "var(--primary-color)", 
                     borderRadius: "12px", 
                     height: "100%",  /* Ensures all cards have the same height */
                     transition: "transform 0.3s ease-in-out", 
-                    border: "1px solid #ddd",
+                    border: "1px solid var(--border-color)",
                     textAlign: "center",
                     display: "flex", 
                     flexDirection: "column",
@@ -95,7 +96,7 @@ const Part2 = () => {
 
                   {/* Name & Job Title */}
                   <h4 className="mt-3">{card.firstname} {card.lastname}</h4>
-                  <h5 style={{ fontSize: "1rem", color: "#555", minHeight: "40px" }}>
+                  <h5 style={{ fontSize: "1rem", color: "var(--text-color)", minHeight: "40px" }}>
                     {card.job_title} at {card.company}
                   </h5>
 
@@ -109,7 +110,7 @@ const Part2 = () => {
                         <span 
                           key={ind} 
                           style={{ 
-                            backgroundColor: "#f1f1f1", 
+                            backgroundColor: "var(--fourth-color)", 
                             padding: "5px 12px", 
                             borderRadius: "20px", 
                             fontSize: "0.9rem",
@@ -125,7 +126,7 @@ const Part2 = () => {
                           <span 
                             key={ind} 
                             style={{ 
-                              backgroundColor: "#f1f1f1", 
+                              backgroundColor: "var(--fourth-color)", 
                               padding: "5px 12px", 
                               borderRadius: "20px", 
                               fontSize: "0.9rem",
@@ -152,7 +153,7 @@ const Part2 = () => {
               </Link>
             ))}
           </div>
-    </>
+    </div>
   )
 }
 

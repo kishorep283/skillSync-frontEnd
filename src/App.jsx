@@ -2,6 +2,7 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 // import './App.css'
+import "./STYLES/globaltheme.css"
 import { Routes, useLocation } from "react-router-dom";
 import LandingPage from "./PAGES/MainPage/LandingPage";
 // import Filters_page from './Filters/Skills_filter'
@@ -27,7 +28,6 @@ import Footer from "./PAGES/MainPage/Footer";
 function App() {
   const location = useLocation();
   let hidebar = (location.pathname.includes("/DashBoard"));
-
   return (
     <>
       {hidebar ? <DashBoard_nav/> : <Header/>}

@@ -52,7 +52,7 @@ const Profile_Form = () => {
     <div>
         <h2>Create Profile</h2>
         {/* <h3 style={{marginLeft:"7%",marginTop:"0%"}}>Profile</h3> */}
-        <div style={{marginLeft:"7%",marginRight:"7%",border:"2px solid #ddd",borderRadius:"20px"}}>
+        <div style={{marginLeft:"7%",marginRight:"7%",border:"2px solid var(--border-color)",borderRadius:"20px"}}>
             <form enctype="multipart/form-data" class="container mt-4" onSubmit={handleSubmit}>
                 <div class="mb-3">
                     <label for="image" class="form-label">Upload Image:</label>

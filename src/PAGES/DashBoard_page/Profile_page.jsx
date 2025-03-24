@@ -8,7 +8,8 @@ const Profile_page = () => {
   let token = sessionStorage.getItem("token");
   let friends = JSON.parse(sessionStorage.getItem("friends")) || [];
   let memberships = JSON.parse(sessionStorage.getItem("memborships")) || [];
-  
+  console.log(friends);
+  console.log(memberships);
   const [userdetails, setUserDetails] = useState({
     description: "",
     firstname: "",
@@ -54,7 +55,7 @@ const Profile_page = () => {
   }, [token]);
 
   return (
-    <div className="profile-container">
+    <div className="profile-container" style={{marginTop:"80px"}}>
       {userdetails.skills.length !== 0 ? (
         <>
           <div className="profile-card">

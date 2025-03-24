@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Link } from 'react-router-dom';
 import { Api } from '../../../Api';
 // import "./Requests.scss";  // Import the SCSS file
+// import "../../../STYLES/friends.scss"
 import "../../../STYLES/Friend_Request.scss"
 
 const Requests = () => {
@@ -38,7 +39,8 @@ const Requests = () => {
 
   return (
     <>
-      <div className="request-nav">
+      <h4 className="tit">Friend requests</h4>
+      <div className="tab-links">
         <Link to="/DashBoard/connections/requests">
           <button>Friend Requests</button>
         </Link>
@@ -55,34 +57,40 @@ const Requests = () => {
 
       {typeof requests[0] === "string" && <h3 className="text-center">{requests[0]}</h3>}
 
-      <div className="requests-container">
-        {typeof requests[0] !== "string" && requests.map((reqe, ind) => (
-          <div className="request-card" key={ind}>
-            <div className="request-info">
-              <img src={reqe.image} alt="" />
-              <div className="details">
-                <h3>{reqe.firstname} {reqe.lastname}</h3>
-                {/* <h4>{reqe.email}</h4> */}
-                <h4>{reqe.job_title} at {reqe.company}</h4>
-                <div className="skills">
-                  {reqe.skills.length > 1 ? (
-                    reqe.skills.map((skill, i) => <span key={i} className="badge">{skill}</span>)
-                  ) : (
-                    JSON.parse(reqe.skills[0]).map((skill, i) => <span key={i} className="badge">{skill}</span>)
-                  )}
+      <div className="requests-list">
+        {typeof requests[0] !== "string" &&
+          requests.map((reqe, ind) => (
+            <div className="request-card" key={ind}>
+              <div className="request-info">
+                <img src={reqe.image} alt="" />
+                <div className="details">
+                  <h3>{reqe.firstname} {reqe.lastname}</h3>
+                  {/* <h4>{reqe.email}</h4> */}
+                  <h4>{reqe.job_title} at {reqe.company}</h4>
+                  <div className="skills">
+                    {reqe.skills.length > 1 ? (
+                      reqe.skills.map((skill, i) => (
+                        <span key={i} className="badge">{skill}</span>
+                      ))
+                    ) : (
+                      JSON.parse(reqe.skills[0]).map((skill, i) => (
+                        <span key={i} className="badge">{skill}</span>
+                      ))
+                    )}
+                  </div>
                 </div>
               </div>
+              <div className="actions">
+                <button className="accept-btn" name={reqe.email} onClick={handleResponse}>Accept</button>
+                <button className="reject-btn" name={reqe.email} onClick={handleResponse}>Reject</button>
+              </div>
             </div>
-            <div className="actions">
-              <button className="accept" name={reqe.email} onClick={handleResponse}>Accept</button>
-              <button className="reject" name={reqe.email} onClick={handleResponse}>Reject</button>
-            </div>
-          </div>
-        ))}
+          ))}
       </div>
 
-      <ToastContainer position="top-center" autoClose={3000} toastStyle={{ fontSize: "10px", padding: "15px", width: "200px", height: "30px" }} />
+      <ToastContainer position="top-center" autoClose={3000} className="toast-container" />
     </>
+
   );
 }
 

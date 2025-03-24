@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState,useEffect} from 'react';
 const ContinueEffet = () => {
-    const words = ["DevOps", "Marketing", "Product Management", "Engineering"];
+    const words = ["DevOps", "Marketing", "Designing", "Engineering","Web Development","Full Stack","AI"];
     const [index, setIndex] = useState(0);
   
     useEffect(() => {
