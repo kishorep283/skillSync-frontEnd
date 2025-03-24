@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { Data } from '../../../Data/data'
 import { Api } from '../../../Api'
 import axios from 'axios'
-import "../../../STYLES/Part2.css"
+import "../../../STYLES/part2.css"
 const Part2 = () => {
   const[Data,setData]=useState([]);
   // let Api=import.meta.env.SKILLSYNC_BACKEND_API;
