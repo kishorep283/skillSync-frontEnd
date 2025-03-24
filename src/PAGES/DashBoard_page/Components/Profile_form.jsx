@@ -3,9 +3,9 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer,toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-// import { Api } from '../../../Api';
+import { Api } from '../../../Api';
 const Profile_Form = () => {
-    let Api=import.meta.env.SKILLSYNC_BACKEND_API;
+    // let Api=import.meta.env.SKILLSYNC_BACKEND_API;
     let token = sessionStorage.getItem("token");
     let navigate =useNavigate();
     const[details,setdetails]=useState({comapny:"",About:"",description:"",price:"",job_title:"",country:"",skills:[],image:null});
@@ -50,7 +50,7 @@ const Profile_Form = () => {
     };
     console.log(details.image);
   return (
-    <div>
+    <div style={{margintop:"100px"}}>
         <h2>Create Profile</h2>
         {/* <h3 style={{marginLeft:"7%",marginTop:"0%"}}>Profile</h3> */}
         <div style={{marginLeft:"7%",marginRight:"7%",border:"2px solid var(--border-color)",borderRadius:"20px"}}>

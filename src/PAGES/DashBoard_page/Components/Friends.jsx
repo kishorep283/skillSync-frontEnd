@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-// import { Api } from '../../../Api';
+import { Api } from '../../../Api';
 // import "./memborships.css"
 import "../../../STYLES/friends.scss"
 // import "../../../STYLES/memberships.scss"
 const Friends = () => {
-  let Api=import.meta.env.SKILLSYNC_BACKEND_API;
+  // let Api=import.meta.env.SKILLSYNC_BACKEND_API;
   const[friends,setFriends]=useState([]);
   const[present,setPresent]=useState(false);
     const[mailmessage,setMailMessage]=useState({message:"",roomid:""});
@@ -64,7 +64,7 @@ const Friends = () => {
   let data= typeof friends[0]==="string" ? 0 : friends
   sessionStorage.setItem("friends",JSON.stringify(data))
   return (
-    <div className="friends-container">
+    <div className="friends-container" style={{marginTop:"100px"}}>
       <h4 className="title">Friends List</h4>
 
       <div className="tab-links">

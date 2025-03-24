@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-// import { Api } from '../../../Api';
+import { Api } from '../../../Api';
 // import "./memborships.css"
 import "../../../STYLES/memberships.scss"
 import "react-toastify/dist/ReactToastify.css";
 import { toast ,ToastContainer } from 'react-toastify';
 const Memborships = () => {
-  let Api=import.meta.env.SKILLSYNC_BACKEND_API;
+  // let Api=import.meta.env.SKILLSYNC_BACKEND_API;
   const[friends,setFriends]=useState([]);
   const[mailmessage,setMailMessage]=useState({message:"",roomid:""});
   const[present,setPresent]=useState(false);
@@ -95,7 +95,7 @@ const Memborships = () => {
   sessionStorage.setItem("memborships",JSON.stringify(friends));
   // console.log(mailmessage)
   return (
-    <div className="membership-container">
+    <div className="membership-container" style={{marginTop:"100px"}}>
       <h4 className="title">Memberships List</h4>
 
       <div className="tab-links">

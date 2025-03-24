@@ -3,10 +3,10 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
-// import { Api } from "../../Api";
+import { Api } from "../../Api";
 import "../../STYLES/register_page.scss"
 const RegisterPage = () => {
-  let Api=import.meta.env.SKILLSYNC_BACKEND_API;
+  // let Api=import.meta.env.SKILLSYNC_BACKEND_API;
   const [register, setRegister] = useState({
     email: "",
     password: "",
@@ -71,7 +71,7 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="register-container">
+    <div className="register-container" style={{marginTop:"100px"}}>
       {/* Logo Section */}
       <div className="logo-section">
         <img src={logo} alt="Logo" />

@@ -190,7 +190,7 @@ const RoomPage = () => {
   };
 
   return (
-    <div className="room-container" style={{marginTop:"80px"}}>
+    <div className="room-container" style={{marginTop:"150px"}}>
       <h1>Room Page</h1>
       <h4>{remoteSocketId ? 'Connected' : 'No one in room'}</h4>
 

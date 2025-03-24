@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-// import { Api } from '../../../Api';
+import { Api } from '../../../Api';
 import "../../../STYLES/mentors.css"
 const Mentros_page = () => {
-    let Api=import.meta.env.SKILLSYNC_BACKEND_API;
+    // let Api=import.meta.env.SKILLSYNC_BACKEND_API;
 
     let [data] = useSearchParams();
     console.log(useSearchParams())

@@ -3,13 +3,13 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from 'react-router-dom';
-// import { Api } from '../../../Api';
+import { Api } from '../../../Api';
 // import "./Requests.scss";  // Import the SCSS file
 // import "../../../STYLES/friends.scss"
 import "../../../STYLES/Friend_Request.scss"
 
 const Requests = () => {
-  let Api=import.meta.env.SKILLSYNC_BACKEND_API;
+  // let Api=import.meta.env.SKILLSYNC_BACKEND_API;
   const [requests, setRequests] = useState([]);
   let token = sessionStorage.getItem("token");
 
@@ -39,7 +39,7 @@ const Requests = () => {
   }, []);
 
   return (
-    <>
+    <div style={{marginTop:"150px"}}>
       <h4 className="tit">Friend requests</h4>
       <div className="tab-links">
         <Link to="/DashBoard/connections/requests">
@@ -90,7 +90,7 @@ const Requests = () => {
       </div>
 
       <ToastContainer position="top-center" autoClose={3000} className="toast-container" />
-    </>
+    </div>
 
   );
 }

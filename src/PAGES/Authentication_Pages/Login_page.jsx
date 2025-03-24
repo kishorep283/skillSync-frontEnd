@@ -6,10 +6,10 @@ import { jwtDecode } from "jwt-decode";
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import logo from "../../assets/logo.png"
-// import { Api } from '../../Api';
-import "../../STYLES/Login_page.scss"
+import { Api } from '../../Api';
+import "../../STYLES/login_page.scss"
 const Login_page = () => {
-    let Api=import.meta.env.SKILLSYNC_BACKEND_API;
+    // let Api=import.meta.env.SKILLSYNC_BACKEND_API;
     const[logindetails,setLogin]=useState({email:"",password:""});
     const navigate =useNavigate();
     const handleChange=(e)=>{
@@ -75,7 +75,7 @@ const Login_page = () => {
 
   return (
      <GoogleOAuthProvider clientId="298562466281-ctsf8ge5ti5dmif748i68sruq031avvh.apps.googleusercontent.com">
-        <div className="login-container">
+        <div className="login-container" style={{marginTop:"80px"}}>
             {/* Logo Section */}
             <div className="logo-section">
                 <img src={logo} alt="Logo" />

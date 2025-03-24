@@ -7,7 +7,7 @@ const Request_page = () => {
   let location = useLocation();
   return (
     
-    <div className='requesting' style={{marginTop:"80px"}}>
+    <div className='requesting' style={{marginTop:"150px"}}>
         <Link to="/DashBoard/connections/requests"><button style={{padding:"5px 10px",border:"2px solid var(--fourth-color)",borderRadius:"20px"}}>Friend Requests</button></Link>
         <Link to="/DashBoard/connections/friends"><button style={{padding:"5px 10px",border:"2px solid var(--fourth-color)",borderRadius:"20px"}}>Friends</button></Link>
         <Link to="/DashBoard/connections/membor_requests"><button style={{padding:"5px 10px",border:"2px solid var(--fourth-color)",borderRadius:"20px"}}>Membership_Requests</button></Link>

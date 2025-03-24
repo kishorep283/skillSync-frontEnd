@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Profile_Form from "./Components/Profile_form";
 import axios from "axios";
-// import { Api } from "../../Api";
+import { Api } from "../../Api";
 import "../../STYLES/profile_page.scss"; // Importing styles
 
 const Profile_page = () => {
-  let Api=import.meta.env.SKILLSYNC_BACKEND_API;
+  // let Api=import.meta.env.SKILLSYNC_BACKEND_API;
   let token = sessionStorage.getItem("token");
   let friends = JSON.parse(sessionStorage.getItem("friends")) || [];
   let memberships = JSON.parse(sessionStorage.getItem("memborships")) || [];

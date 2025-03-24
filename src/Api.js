@@ -1,1 +1,1 @@
-export const Api ="http://localhost:3002"
+export const Api ="https://skillsync-backend-rsyq.onrender.com"

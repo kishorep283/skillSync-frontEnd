@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import BodyContent from "./Components/BodyContent";
-// import { Api } from "../../Api";
+import { Api } from "../../Api";
 // import "../../styles/Dashboard.css"; // Import CSS
 import "../../STYLES/DashBoardContext.scss";
 
 const Dashboard = () => {
-  let Api=import.meta.env.SKILLSYNC_BACKEND_API;
+  // let Api=import.meta.env.SKILLSYNC_BACKEND_API;
   const [userData, setUserData] = useState(null);
   let navigate = useNavigate();
   let token = sessionStorage.getItem("token");
