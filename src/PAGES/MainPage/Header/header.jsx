@@ -14,7 +14,6 @@ const Header = () => {
   const[value,setValue]=useState("");
   const[locator,setLocator]=useState(true);
   const[bars,setbars]=useState(false);
-  const[searchbar,setSearchBar]=useState(false)
   const{theme,Updatetheme}=useContext(ThemeContext);
   const navRef =useRef();
   let navigate =useNavigate();
@@ -28,19 +27,21 @@ const Header = () => {
   }, [islogin]);
   let location =useLocation();
   useEffect(()=>{
-    if(location.pathname.includes("mentor/browse")){
+    if(location.pathname.includes("/mentor/browse")){
       setLocator(false);
-      setSearchBar(true)
     }
-  },[])
+    else{
+      setLocator(true);
+    }
+  },[location.pathname])
   
   const debouncedSearch = useCallback(
     debounce((searchValue) => {
       let params = new URLSearchParams();
       if (searchValue.trim()) params.set("search", searchValue);
-      let queryString = params.toString();
+      let query = params.toString();
       searchValue.length > 0?
-        navigate(`/mentor/browse?${queryString}`)
+        navigate(`/mentor/browse?${query}`)
         : (locator ? navigate(`/mentor/browse`):navigate("/"));
     }, 1000), // 500ms debounce time
     [navigate]
@@ -68,7 +69,7 @@ const Header = () => {
               <img src={theme ==="light"?logo : plain_logo} alt="logo" width={150} height={100} />
             </Link>
           </div>
-          <div className="input-group" style={{ width: "30vw" }}>
+          {locator ? <div className="input-group" style={{ width: "30vw" }}>
             <span className="input-group-text bg-white border-end-0">
               <i className="bi bi-search"></i>
             </span>
@@ -79,7 +80,7 @@ const Header = () => {
               value={value}
               onChange={handleSearch}
             />
-          </div>
+          </div>:""}
                 <button className="theme-button" style={{color:theme==="light"?"white":"black" ,backgroundColor:theme==="light"?"black":"white",borderRadius:"20px"}} onClick={Updatetheme}>
                   {theme === 'light' ? '🌙' : '🌤️'}
                 </button>

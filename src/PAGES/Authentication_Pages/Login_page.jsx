@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ToastContainer,toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
@@ -17,9 +17,23 @@ const Login_page = () => {
     }
     console.log(logindetails)
     sessionStorage.setItem("email",JSON.stringify(logindetails.email));
+
+    // useEffect(()=>{
+    //     if(logindetails.email){
+    //         let ProfileData = async()=>{
+    //             let {data}=await axios.get(`${Api}/Auth/Profile_valid/${email}`)
+    //             console.log(data.message);
+    //         }
+    //         ProfileData();
+    //     }
+    // },[])
     const handleSubmit =async (e)=>{
         e.preventDefault();
-        // if (!validateForm()) return; 
+        let ProfileData = async()=>{
+            let {data}=await axios.get(`${Api}/Auth/Profile_valid/${logindetails.email}`)
+            sessionStorage.setItem("profiledata",data.message);
+        }
+        ProfileData();
 
         try {
             const response = await fetch(`${Api}/Auth/login`, {

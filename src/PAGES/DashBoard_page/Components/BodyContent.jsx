@@ -6,6 +6,7 @@ import React from "react";
 const BodyContent = () => {
   return (
     <div className="body-content-container">
+      
       <h3>Featured Sessions</h3>
       <div className="featured-grid">
         <div className="featured-card">

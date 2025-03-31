@@ -15,18 +15,22 @@ body {
 
 .left-section {
   .profile-card {
-    padding: 5vh 50px;
+    padding: 20vh 50px;
     border-radius: 20px;
     margin-left: 5%;
-    // background: linear-gradient(135deg, #66b3ff, #4d94ff);  }
-    background: linear-gradient(135deg, #007bff, #0056b3); // Bl
+    margin-bottom: 10%;
+    background: linear-gradient(135deg, #007bff, #0056b3); 
   }
   .profile-card img {
+    position: absolute;
+    top:45%;
+    left:10%;
     width: 200px;
     height: 200px;
     object-fit: cover;
     border-radius: 50%;
-    background: linear-gradient(135deg, #007bff, #0056b3); // Bl
+    // margin-bottom: 5%;
+    background: linear-gradient(135deg, #007bff, #0056b3); 
   }
 
   .profile-details {
@@ -87,6 +91,7 @@ body {
   height: 55vh;
   margin-top: 5%;
   position: sticky;
+  top:0%;
 }
 
 .right-section p {
@@ -102,7 +107,7 @@ body {
 
 .right-section .membership-details p {
   font-size: 0.9rem;
-  color: var(--fourth-color);
+  color: var(--text-color);
 }
 
 .right-section .benefits p {
@@ -150,10 +155,16 @@ body {
   .leftpart-container {
     grid-template-columns: 1fr;
   }
-
+  .left-section .profile-card{
+    margin-bottom: 10%;
+    height: 30vh;
+  }
   .left-section .profile-card img {
     width: 150px;
     height: 150px;
+    position: absolute;
+    top:40%;
+    left:10%;
   }
   .right-section{
      margin-left: 5%;

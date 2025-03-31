@@ -21,7 +21,7 @@ const Dashboard = () => {
     const fetchData = async () => {
       try {
         if (token) {
-          let { data } = await axios.get(`${Api}/Auth/profile-check`, {
+          let { data } = await axios.get(`${Api}/Auth/profile-check/`, {
             headers: { Authorization: `Bearer ${token}` },
             withCredentials: true,
           });

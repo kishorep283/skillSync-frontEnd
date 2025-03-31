@@ -13,12 +13,12 @@ const Part1 = () => {
     
   }
   const handleTransport=()=>{
-    console.log(value);
-    // let params =new URLSearchParams();
-    // if(value.trim()) params.set("search",value);
-    // let query = params.toString();
+    // console.log(value);
+    let params =new URLSearchParams();
+    if(value.trim()) params.set("search",value);
+    let query = params.toString();
     // console.log(query)
-   value.length > 0 ? navigate(`/mentor/browse?search=${value}`) : navigate("/");
+   value.length > 0 ? navigate(`/mentor/browse?${query}`) : navigate("/");
     // if()
   }
   return (

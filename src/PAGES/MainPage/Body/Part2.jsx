@@ -8,10 +8,10 @@ import "../../../STYLES/part2.css"
 const Part2 = () => {
   const[Data,setData]=useState([]);
   // let Api=import.meta.env.SKILLSYNC_BACKEND_API;
-  console.log(Api);
+
   useEffect(()=>{
      let fetchdata =async()=>{
-      let {data}=await axios.get(`${Api}/Auth/AllData`)
+      let {data}=await axios.post(`${Api}/Auth/AllData`)
       let{message}=data;
       // console.log(message)
       setData(message)
