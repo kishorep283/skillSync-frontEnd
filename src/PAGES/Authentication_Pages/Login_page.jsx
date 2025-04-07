@@ -86,9 +86,10 @@ const Login_page = () => {
           console.log(error);
         }
     }
-
+    // 298562466281-ctsf8ge5ti5dmif748i68sruq031avvh.apps.googleusercontent.com
+    // 215670671804-0g5gv0b3mubqvs890o7qsr01tuotbnpo.apps.googleusercontent.com
   return (
-     <GoogleOAuthProvider clientId="298562466281-ctsf8ge5ti5dmif748i68sruq031avvh.apps.googleusercontent.com">
+     <GoogleOAuthProvider clientId="215670671804-0g5gv0b3mubqvs890o7qsr01tuotbnpo.apps.googleusercontent.com">
         <div className="login-container" style={{marginTop:"80px"}}>
             {/* Logo Section */}
             <div className="logo-section">
